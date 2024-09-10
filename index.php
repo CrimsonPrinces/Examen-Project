@@ -1,5 +1,5 @@
 <?php
 
-echo "hello world"
+echo "<a href='home.php'> Login </a>";
 
 ?>
