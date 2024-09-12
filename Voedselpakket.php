@@ -9,7 +9,7 @@
 
 <?php
 
-echo "Voedselbank Maaskantje";
+echo "Voedselbank Maaskantje Voedselpakket";
 ?>
 <br>
 <a href='home.php'> Home </a>
@@ -18,7 +18,7 @@ echo "Voedselbank Maaskantje";
 <br>
 <a href='Voorraad.php'> Voorraad </a>
 <br>
-<a href='Leveranchier.php'> Leveranchiers </a>
+<a href='Leverancier.php'> Leveranciers </a>
 <br>
 <a href='Klanten.php'> Klanten </a>
 <br>
