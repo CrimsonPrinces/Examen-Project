@@ -18,7 +18,7 @@ echo "Voedselbank Maaskantje Voorraad";
 <br>
 <a href='Medewerker.php'> Medewerkers </a>
 <br>
-<a href='Leveranchier.php'> Leveranchiers </a>
+<a href='Leverancier.php'> Leveranciers </a>
 <br>
 <a href='Klanten.php'> Klanten </a>
 <br>
