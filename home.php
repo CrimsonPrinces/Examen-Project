@@ -22,7 +22,7 @@ echo "Voedselbank Maaskantje";
 <br>
 <a href='Klanten.php'> Klanten </a>
 <br>
-<a href='index.php'> Uitloggen </a>
+<a href='logout.php'> Uitloggen </a>
 
 </body>
 </html>
