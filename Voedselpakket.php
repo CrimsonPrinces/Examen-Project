@@ -1,3 +1,22 @@
+<?php
+session_start();
+$servername = "localhost";
+$username = "root";
+$password = "";
+
+  try {
+      $conn = new PDO("mysql:host=$servername;dbname=examenproject", $username, $password);
+      // set the PDO error mode to exception
+      $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+  } catch(PDOException $e) {
+      echo $sql . "<br>" . $e->getMessage();
+  }
+
+  if (!isset($_SESSION["usertype"])) {
+    header("Location: index.php");
+  }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,5 +41,35 @@ echo "Voedselbank Maaskantje";
 <a href='index.php' class= "mx-5"> Uitloggen </a>
 </div>
 </div>
+
+<form method="post" class="flexbox">
+        <table>
+            <tr>                
+                <th>Voedselpakket ID</th>
+                <th>Hoord bij klant</th>
+                <th>Samensteldatum</th>
+                <th>Uitgiftedatum</th>            
+            </tr>
+                <?php 
+                    $prevVoedselpakket = null;
+                    $sql = "SELECT * FROM voedselpakket JOIN klant ON voedselpakket.idklant = klant.idklant ORDER BY voedselpakket.idklant";
+                    $result = $conn->query($sql);
+                    
+                    if ($result) {
+                        while ($row = $result->fetch(PDO::FETCH_ASSOC)) { 
+                            if ($row["idvoedselpakket"] != $prevVoedselpakket) {
+                                echo "<tr>";
+                                echo "<td>" . $row["idvoedselpakket"] . "</td>";
+                                echo "<td>" . $row["naam"] . "</td>"; 
+                                echo "<td>" . $row["samensteldatum"] . "</td>"; 
+                                echo "<td>" . $row["uitgiftedatum"] . "</td>";
+                                echo "</tr>";
+                            }
+                            $prevVoedselpakket = $row["idvoedselpakket"];
+                        }
+                    }
+                ?>
+        </table>
+    </form>
 </body>
 </html>

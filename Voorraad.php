@@ -1,3 +1,25 @@
+<?php
+session_start();
+$servername = "localhost";
+$username = "root";
+$password = "";
+
+  try {
+      $conn = new PDO("mysql:host=$servername;dbname=examenproject", $username, $password);
+      // set the PDO error mode to exception
+      $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+  } catch(PDOException $e) {
+      echo $sql . "<br>" . $e->getMessage();
+  }
+
+  if (!isset($_SESSION["usertype"])) {
+    header("Location: index.php");
+  } else if (isset($_SESSION["usertype"]) == 3) {
+    header("Location: home.php");
+  }
+?>
+
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -21,5 +43,37 @@ echo "Voedselbank Maaskantje";
 <a href='index.php' class= "mx-5"> Uitloggen </a>
 </div>
 </div>
+
+<form method="post" class="flexbox">
+        <table>
+            <tr>                
+                <th>Streepjescode</th>
+                <th>Productnaam</th>
+                <th>Categorie</th>
+                <th>Aantal</th>
+                <th>Verderfdatum</th>            
+            </tr>
+                <?php 
+                    $prevProduct = null;
+                    $sql = "SELECT * FROM product ORDER BY streepjescode";
+                    $result = $conn->query($sql);
+                    
+                    if ($result) {
+                        while ($row = $result->fetch(PDO::FETCH_ASSOC)) { 
+                            if ($row["streepjescode"] != $prevProduct) {
+                                echo "<tr>";
+                                echo "<td>" . $row["streepjescode"] . "</td>";
+                                echo "<td>" . $row["productnaam"] . "</td>"; 
+                                echo "<td>" . $row["categorie"] . "</td>"; 
+                                echo "<td>" . $row["aantal"] . "</td>";
+                                echo "<td>" . $row["verderfdatum"] . "</td>";
+                                echo "</tr>";
+                            }
+                            $prevProduct = $row["streepjescode"];
+                        }
+                    }
+                ?>
+        </table>
+    </form>
 </body>
 </html>
