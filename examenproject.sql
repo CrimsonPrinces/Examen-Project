@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Sep 11, 2024 at 10:16 AM
--- Server version: 5.7.40
--- PHP Version: 8.0.26
+-- Generation Time: Sep 13, 2024 at 11:41 AM
+-- Server version: 8.2.0
+-- PHP Version: 8.2.13
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,24 +29,25 @@ SET time_zone = "+00:00";
 
 DROP TABLE IF EXISTS `klant`;
 CREATE TABLE IF NOT EXISTS `klant` (
-  `idklant` int(11) NOT NULL AUTO_INCREMENT,
+  `idklant` int NOT NULL AUTO_INCREMENT,
   `naam` varchar(45) NOT NULL,
   `adres` varchar(45) NOT NULL,
   `telefoonnummer` varchar(45) NOT NULL,
   `email` varchar(45) NOT NULL,
-  `aantalvolwassen` int(11) DEFAULT NULL,
-  `aantalkind` int(11) DEFAULT NULL,
-  `aantalbaby` int(11) DEFAULT NULL,
+  `aantalvolwassen` int DEFAULT NULL,
+  `aantalkind` int DEFAULT NULL,
+  `aantalbaby` int DEFAULT NULL,
   `wensen` text,
   PRIMARY KEY (`idklant`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `klant`
 --
 
 INSERT INTO `klant` (`idklant`, `naam`, `adres`, `telefoonnummer`, `email`, `aantalvolwassen`, `aantalkind`, `aantalbaby`, `wensen`) VALUES
-(1, 'klant1', 'klantlaan 1', '1234567890', 'klant1@email.com', 1, 2, 3, 'Veganistisch');
+(1, 'klant1', 'klantlaan 1', '1234567890', 'klant1@email.com', 1, 2, 3, 'Veganistisch'),
+(2, 'klant2', 'klantlaan 2', '0987654321', 'klant2@email.com', 3, 2, 1, 'Geen varkensvlees');
 
 -- --------------------------------------------------------
 
@@ -56,7 +57,7 @@ INSERT INTO `klant` (`idklant`, `naam`, `adres`, `telefoonnummer`, `email`, `aan
 
 DROP TABLE IF EXISTS `leverancier`;
 CREATE TABLE IF NOT EXISTS `leverancier` (
-  `idleverancier` int(11) NOT NULL AUTO_INCREMENT,
+  `idleverancier` int NOT NULL AUTO_INCREMENT,
   `bedrijfsnaam` varchar(50) NOT NULL,
   `adres` varchar(45) NOT NULL,
   `naamcontact` varchar(45) NOT NULL,
@@ -81,9 +82,9 @@ INSERT INTO `leverancier` (`idleverancier`, `bedrijfsnaam`, `adres`, `naamcontac
 
 DROP TABLE IF EXISTS `levering`;
 CREATE TABLE IF NOT EXISTS `levering` (
-  `idlevering` int(11) NOT NULL AUTO_INCREMENT,
+  `idlevering` int NOT NULL AUTO_INCREMENT,
   `datum` datetime DEFAULT NULL,
-  `idleverancier` int(11) NOT NULL,
+  `idleverancier` int NOT NULL,
   PRIMARY KEY (`idlevering`),
   KEY `idleverancier` (`idleverancier`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
@@ -103,8 +104,8 @@ INSERT INTO `levering` (`idlevering`, `datum`, `idleverancier`) VALUES
 
 DROP TABLE IF EXISTS `levering_has_product`;
 CREATE TABLE IF NOT EXISTS `levering_has_product` (
-  `idlevering` int(11) NOT NULL,
-  `streepjescode` bigint(20) NOT NULL,
+  `idlevering` int NOT NULL,
+  `streepjescode` bigint NOT NULL,
   PRIMARY KEY (`idlevering`,`streepjescode`),
   KEY `streepjescode` (`streepjescode`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
@@ -124,10 +125,10 @@ INSERT INTO `levering_has_product` (`idlevering`, `streepjescode`) VALUES
 
 DROP TABLE IF EXISTS `product`;
 CREATE TABLE IF NOT EXISTS `product` (
-  `streepjescode` bigint(20) NOT NULL,
+  `streepjescode` bigint NOT NULL,
   `productnaam` varchar(100) NOT NULL,
   `categorie` varchar(70) NOT NULL,
-  `aantal` int(11) NOT NULL,
+  `aantal` int NOT NULL,
   `verderfdatum` date DEFAULT NULL,
   PRIMARY KEY (`streepjescode`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
@@ -137,7 +138,8 @@ CREATE TABLE IF NOT EXISTS `product` (
 --
 
 INSERT INTO `product` (`streepjescode`, `productnaam`, `categorie`, `aantal`, `verderfdatum`) VALUES
-(5304826896055, 'product1', 'Aardappelen, groente, fruit', 1, '2025-09-11');
+(5304826896055, 'product1', 'Aardappelen, groente, fruit', 1, '2025-09-11'),
+(6963736455087, 'product2', 'Kaas, vleeswaren', 5, '2024-12-31');
 
 -- --------------------------------------------------------
 
@@ -147,10 +149,10 @@ INSERT INTO `product` (`streepjescode`, `productnaam`, `categorie`, `aantal`, `v
 
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE IF NOT EXISTS `user` (
-  `iduser` int(11) NOT NULL AUTO_INCREMENT,
+  `iduser` int NOT NULL AUTO_INCREMENT,
   `gebruikersnaam` varchar(45) NOT NULL,
   `wachtwoord` varchar(200) DEFAULT NULL,
-  `idusertype` int(11) NOT NULL,
+  `idusertype` int NOT NULL,
   PRIMARY KEY (`iduser`),
   UNIQUE KEY `gebruikersnaam` (`gebruikersnaam`),
   KEY `idusertype` (`idusertype`)
@@ -173,7 +175,7 @@ INSERT INTO `user` (`iduser`, `gebruikersnaam`, `wachtwoord`, `idusertype`) VALU
 
 DROP TABLE IF EXISTS `usertype`;
 CREATE TABLE IF NOT EXISTS `usertype` (
-  `idusertype` int(11) NOT NULL,
+  `idusertype` int NOT NULL,
   PRIMARY KEY (`idusertype`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
@@ -194,20 +196,22 @@ INSERT INTO `usertype` (`idusertype`) VALUES
 
 DROP TABLE IF EXISTS `voedselpakket`;
 CREATE TABLE IF NOT EXISTS `voedselpakket` (
-  `idvoedselpakket` int(11) NOT NULL AUTO_INCREMENT,
+  `idvoedselpakket` int NOT NULL AUTO_INCREMENT,
   `samensteldatum` date DEFAULT NULL,
   `uitgiftedatum` date DEFAULT NULL,
-  `idklant` int(11) NOT NULL,
+  `idklant` int NOT NULL,
   PRIMARY KEY (`idvoedselpakket`),
   KEY `idklant` (`idklant`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `voedselpakket`
 --
 
 INSERT INTO `voedselpakket` (`idvoedselpakket`, `samensteldatum`, `uitgiftedatum`, `idklant`) VALUES
-(1, '2024-09-12', '2024-09-13', 1);
+(1, '2024-09-12', '2024-09-13', 1),
+(2, '2024-09-19', NULL, 1),
+(3, '2024-09-26', '2024-09-27', 2);
 
 -- --------------------------------------------------------
 
@@ -217,9 +221,9 @@ INSERT INTO `voedselpakket` (`idvoedselpakket`, `samensteldatum`, `uitgiftedatum
 
 DROP TABLE IF EXISTS `voedselpakket_has_product`;
 CREATE TABLE IF NOT EXISTS `voedselpakket_has_product` (
-  `idvoedselpakket` int(11) NOT NULL,
-  `idklant` int(11) NOT NULL,
-  `streepjescode` bigint(20) NOT NULL,
+  `idvoedselpakket` int NOT NULL,
+  `idklant` int NOT NULL,
+  `streepjescode` bigint NOT NULL,
   PRIMARY KEY (`idvoedselpakket`,`streepjescode`),
   KEY `idklant` (`idklant`),
   KEY `streepjescode` (`streepjescode`)
