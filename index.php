@@ -13,7 +13,7 @@ $password = "";
   }
 
   if (isset($_SESSION["usertype"])) {
-    header("Location: homepage.php");
+    header("Location: home.php");
   }
 ?>
 
