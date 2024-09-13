@@ -23,6 +23,5 @@ echo "Voedselbank Maaskantje Voorraad";
 <a href='Klanten.php'> Klanten </a>
 <br>
 <a href='index.php'> Uitloggen </a>
-
 </body>
 </html>
