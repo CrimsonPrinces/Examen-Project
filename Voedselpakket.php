@@ -32,18 +32,21 @@ $password = "";
 
 echo "Voedselbank Maaskantje";
 ?>
-<div>
-<a href='home.php' class= "mx-5"> Home </a>
-<a href='Medewerker.php' class= "mx-5"> Medewerkers </a>
-<a href='Voorraad.php' class= "mx-5"> Voorraad </a>
-<a href='Leverancier.php' class= "mx-5"> Leveranciers </a>
-<a href='Klanten.php' class= "mx-5"> Klanten </a>
-<a href='index.php' class= "mx-5"> Uitloggen </a>
+    <div class="mb-20">
+    <a href='home.php' class= "mx-5"> Home </a>
+    <a href='Medewerker.php' class= "mx-5"> Medewerkers </a>
+    <a href='Voorraad.php' class= "mx-5"> Voorraad </a>
+    <a href='Leverancier.php' class= "mx-5"> Leveranciers </a>
+    <a href='Klanten.php' class= "mx-5"> Klanten </a>
+    <a href='index.php' class= "mx-5"> Uitloggen </a>
+    </div>
 </div>
-</div>
+<h2 class="text-lg border-b border-black mb-3"> Voedselpakket</h2>
 
-<form method="post" class="flexbox">
-        <table>
+
+<div class="bg-gray-200">
+    <form method="post" class="flexbox bg-gray-200">
+        <table class="border-separate border-spacing-5 border">
             <tr>                
                 <th>Voedselpakket ID</th>
                 <th>Hoord bij klant</th>
@@ -71,5 +74,6 @@ echo "Voedselbank Maaskantje";
                 ?>
         </table>
     </form>
+</div>    
 </body>
 </html>
