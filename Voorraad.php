@@ -14,7 +14,8 @@ $password = "";
 
   if (!isset($_SESSION["usertype"])) {
     header("Location: index.php");
-  } else if ($_SESSION["usertype"] == 3) {
+  } // FIlter om te checken of je vrijwilligerbent zoja redirect
+   else if ($_SESSION["usertype"] == 3) {
     header("Location: home.php");
   }
 ?>
