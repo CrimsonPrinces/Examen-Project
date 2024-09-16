@@ -1,3 +1,12 @@
+<?php
+    require_once("db_login.php");
+
+    if (!isset($_SESSION["usertype"])) {
+        header("Location: index.php");
+    }
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
