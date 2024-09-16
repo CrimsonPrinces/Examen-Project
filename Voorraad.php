@@ -1,11 +1,12 @@
 <?php
     require_once("db_login.php");
 
-    if (!isset($_SESSION["usertype"])) {
-        header("Location: index.php");
-    } else if ($_SESSION["usertype"] == 3) {
-        header("Location: home.php");
-    }
+  if (!isset($_SESSION["usertype"])) {
+    header("Location: index.php");
+  } // FIlter om te checken of je vrijwilligerbent zoja redirect
+   else if ($_SESSION["usertype"] == 3) {
+    header("Location: home.php");
+  }
 ?>
 
 
@@ -23,7 +24,7 @@
 
 echo "Voedselbank Maaskantje";
 ?>
-<div>
+<div class="mb-20">
 <a href='home.php' class= "mx-5"> Home </a>
 <a href='Voedselpakket.php' class= "mx-5"> Voedselpakket </a>
 <a href='Medewerker.php' class= "mx-5"> Medewerkers </a>
@@ -33,15 +34,22 @@ echo "Voedselbank Maaskantje";
 </div>
 </div>
 
-<form method="post" class="flexbox">
-        <table>
-            <tr>                
-                <th>Streepjescode</th>
-                <th>Productnaam</th>
-                <th>Categorie</th>
-                <th>Aantal</th>
-                <th>Verderfdatum</th>            
-            </tr>
+<h2 class="text-lg border-b border-black mb-3"> Voorraad</h2>
+
+
+<div class="bg-gray-200">
+    <form method="post" class="bg-gray-200">
+        <table class= "border-separate border-spacing-5 border">
+            <thead>
+                <tr>                
+                    <th>Streepjescode</th>
+                    <th>Productnaam</th>
+                    <th>Categorie</th>
+                    <th>Aantal</th>
+                    <th>Verderfdatum</th>            
+                </tr>
+            </thead>
+            <tbody>
                 <?php 
                     $prevProduct = null;
                     $sql = "SELECT * FROM product ORDER BY streepjescode";
@@ -59,10 +67,12 @@ echo "Voedselbank Maaskantje";
                                 echo "</tr>";
                             }
                             $prevProduct = $row["streepjescode"];
-                        }
+                        } 
                     }
-                ?>
+                ?> <!--Fetches data from database and displays it-->
+            </tbody>    
         </table>
     </form>
+</div>
 </body>
 </html>

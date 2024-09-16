@@ -13,36 +13,38 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv = "X-UA-Compatible" content = "IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Voedselbank Maaskantje Klanten</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-
+<body class="p-8">
+    <div class="flex">
 <?php
 
-echo "Voedselbank Maaskantje Klanten";
+echo "Voedselbank Maaskantje";
 ?>
-<br>
-<a href='home.php'> Home </a>
-<br>
-<a href='Voedselpakket.php'> Voedselpakket </a>
-<br>
-<a href='Medewerker.php'> Medewerkers </a>
-<br>
-<a href='Voorraad.php'> Voorraad </a>
-<br>
-<a href='Leverancier.php'> Leveranciers </a>
-<br>
-<a href='index.php'> Uitloggen </a>
+        <div class="mb-20">
+            <a href='home.php' class="mx-5"> Home </a>
+            <a href='Voedselpakket.php' class="mx-5"> Voedselpakket </a>
+            <a href='Medewerker.php' class="mx-5"> Medewerkers </a>
+            <a href='Voorraad.php' class="mx-5"> Voorraad </a>
+            <a href='Leverancier.php' class="mx-5"> Leveranciers </a>
+            <a href='index.php' class="mx-5"> Uitloggen </a>
+        </div>
+    </div>
+    <h2 class="text-lg border-b border-black mb-3"> Klanten</h2>
 
-<form method="post" class="flexbox">
-        <table>
+
+<div class="bg-gray-200">
+<form method="post" class="flexbox bg-gray-200">
+        <table class="border-separate border-spacing-5 border">
             <tr>                
                 <th>Klant ID</th>
                 <th>Naam</th>
                 <th>Adres</th>
                 <th>Telefoonnummer</th>
-                <th>Emailadres</th>
+                <th>E-mailadres</th>
                 <th>Aantal volwassenen</th>
                 <th>Aantal kinderen</th>
                 <th>Aantal baby's</th>
@@ -74,5 +76,6 @@ echo "Voedselbank Maaskantje Klanten";
                 ?>
         </table>
     </form>
+</div>
 </body>
 </html>
