@@ -12,11 +12,11 @@ $password = "";
       echo $sql . "<br>" . $e->getMessage();
   }
 
-//   if (!isset($_SESSION["usertype"])) {
-//     header("Location: index.php");
-//   } else if (isset($_SESSION["usertype"]) == 3) {
-//     header("Location: home.php");
-//   } Wij moeten hier nog naar kijken of A usertype wordt niet mee gegeven of we blockeren het verkeerd
+  if (!isset($_SESSION["usertype"])) {
+    header("Location: index.php");
+  } else if ($_SESSION["usertype"] == 3) {
+    header("Location: home.php");
+  }
 ?>
 
 
