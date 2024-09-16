@@ -12,11 +12,12 @@ $password = "";
       echo $sql . "<br>" . $e->getMessage();
   }
 
+  if (!$_SESSION["usertype"] != 1) {
+    header("Location: home.php");
+  } 
   if (!isset($_SESSION["usertype"])) {
     header("Location: index.php");
-  } else if (isset($_SESSION["usertype"]) != 1) {
-    header("Location: home.php");
-  }
+  } 
 ?>
 
 <!DOCTYPE html>

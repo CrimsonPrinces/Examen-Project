@@ -14,7 +14,7 @@ $password = "";
 
   if (!isset($_SESSION["usertype"])) {
     header("Location: index.php");
-  } else if (isset($_SESSION["usertype"]) == 3) {
+  } else if ($_SESSION["usertype"] == 3) {
     header("Location: home.php");
   }
 ?>

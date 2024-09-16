@@ -1,3 +1,22 @@
+<?php
+session_start();
+$servername = "localhost";
+$username = "root";
+$password = "";
+
+  try {
+      $conn = new PDO("mysql:host=$servername;dbname=examenproject", $username, $password);
+      // set the PDO error mode to exception
+      $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+  } catch(PDOException $e) {
+      echo $sql . "<br>" . $e->getMessage();
+  }
+
+  if (!isset($_SESSION["usertype"])) {
+    header("Location: index.php");
+  }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
