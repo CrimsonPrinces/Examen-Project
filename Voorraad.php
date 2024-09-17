@@ -40,20 +40,29 @@ echo "Voedselbank Maaskantje";
     <form method="post" class="bg-gray-200">
         <table class= "border-separate border-spacing-5 border">
             <thead>
-                <tr>                
-                    <th>Streepjescode</th>
-                    <th>Productnaam</th>
-                    <th>Categorie</th>
-                    <th>Aantal</th>
-                    <th>Verderfdatum</th>            
+                <?php                     
+                    $prevProduct = null;
+                    ?>
+                <tr>
+                    <th><a href="Voorraad.php?sort=streepjescode">Streepjescode</a></th>
+                    <th><a href="Voorraad.php?sort=productnaam">Productnaam</a></th>
+                    <th><a href="Voorraad.php?sort=categorie">Categorie</a></th>
+                    <th><a href="Voorraad.php?sort=aantal">Aantal</a></th>
+                    <th><a href="Voorraad.php?sort=verderfdatum">Verderfdatum</a></th>            
                 </tr>
+                <?php
+                    $sort = array('streepjescode', 'productnaam', 'categorie', 'aantal', 'verderfdatum');
+                    $order = 'streepjescode';
+                    if (isset($_GET['sort']) && in_array($_GET['sort'], $sort)) {
+                        $order = $_GET['sort'];
+                    }
+
+                    $sql = 'SELECT * FROM product ORDER BY '.$order;
+                    $result = $conn->query($sql);
+                ?>
             </thead>
             <tbody>
                 <?php 
-                    $prevProduct = null;
-                    $sql = "SELECT * FROM product ORDER BY streepjescode";
-                    $result = $conn->query($sql);
-                    
                     if ($result) {
                         while ($row = $result->fetch(PDO::FETCH_ASSOC)) { 
                             if ($row["streepjescode"] != $prevProduct) {

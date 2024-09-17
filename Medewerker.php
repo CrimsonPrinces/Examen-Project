@@ -1,3 +1,14 @@
+<?php
+    require_once("db_login.php");
+
+    if ($_SESSION["usertype"] != 1) {
+        header("Location: home.php");
+    } 
+    if (!isset($_SESSION["usertype"])) {
+        header("Location: index.php");
+    } 
+?>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -19,6 +30,36 @@ echo "Voedselbank Maaskantje";
     <a href='Voedselpakket.php' class="mx-5"> Voedselpakket </a>
     <a href='index.php' class= "mx-5"> Uitloggen </a>
     </div>
+</div>
+
+<div class="bg-gray-200">
+<form method="post" class="flexbox bg-gray-200">
+        <table class="border-separate border-spacing-5 border">
+            <tr>                
+                <th>User ID</th>
+                <th>Gebruikersnaam</th>
+                <th>User Type</th>      
+            </tr>
+                <?php 
+                    $prevUser = null;
+                    $sql = "SELECT * FROM user ORDER BY iduser";
+                    $result = $conn->query($sql);
+                    
+                    if ($result) {
+                        while ($row = $result->fetch(PDO::FETCH_ASSOC)) { 
+                            if ($row["iduser"] != $prevUser) {
+                                echo "<tr>";
+                                echo "<td>" . $row["iduser"] . "</td>";
+                                echo "<td>" . $row["gebruikersnaam"] . "</td>"; 
+                                echo "<td>" . $row["idusertype"] . "</td>";
+                                echo "</tr>";
+                            }
+                            $prevUser = $row["iduser"];
+                        }
+                    }
+                ?>
+        </table>
+    </form>
 </div>
 </body>
 </html>
