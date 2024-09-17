@@ -46,13 +46,13 @@ echo "Voedselbank Maaskantje";
                 <th>Volgende Levering</th>      
             </tr>
                 <?php 
-                    $prevKlant = null;
+                    $prevLeverancier = null;
                     $sql = "SELECT * FROM leverancier ORDER BY idleverancier";
                     $result = $conn->query($sql);
                     
                     if ($result) {
                         while ($row = $result->fetch(PDO::FETCH_ASSOC)) { 
-                            if ($row["idleverancier"] != $prevKlant) {
+                            if ($row["idleverancier"] != $prevLeverancier) {
                                 echo "<tr>";
                                 echo "<td>" . $row["idleverancier"] . "</td>";
                                 echo "<td>" . $row["bedrijfsnaam"] . "</td>"; 
@@ -63,7 +63,7 @@ echo "Voedselbank Maaskantje";
                                 echo "<td>" . $row["volgendelevering"] . "</td>";
                                 echo "</tr>";
                             }
-                            $prevKlant = $row["idleverancier"];
+                            $prevLeverancier = $row["idleverancier"];
                         }
                     }
                 ?>
