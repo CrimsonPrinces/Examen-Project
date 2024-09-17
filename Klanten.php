@@ -1,7 +1,7 @@
 <?php
     require_once("db_login.php");
 
-    if (!$_SESSION["usertype"] != 1) {
+    if ($_SESSION["usertype"] != 1) {
         header("Location: home.php");
     } 
     if (!isset($_SESSION["usertype"])) {
