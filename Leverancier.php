@@ -12,14 +12,13 @@
 
 echo "Voedselbank Maaskantje";
 ?>
-<div>
-<a href='home.php' class= "mx-5"> Home </a>
-<a href='Voedselpakket.php' class= "mx-5"> Voedselpakket </a>
-<a href='Medewerker.php' class= "mx-5"> Medewerkers </a>
-<a href='Voorraad.php' class= "mx-5"> Voorraad </a>
-<a href='Klanten.php' class= "mx-5"> Klanten </a>
-<a href='index.php' class= "mx-5"> Uitloggen </a>
-</div>
+<div class="mb-20">
+    <a href='home.php' class= "mx-5"> Home </a>
+    <?php require_once("Switches.php");
+     ?>
+    <a href='Voedselpakket.php' class="mx-5"> Voedselpakket </a>
+    <a href='index.php' class= "mx-5"> Uitloggen </a>
+    </div>
 </div>
 </body>
 </html>
