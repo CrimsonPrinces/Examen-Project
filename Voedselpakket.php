@@ -33,13 +33,13 @@ echo "Voedselbank Maaskantje";
 
 
 <div class="max-w-xl">
-    <form method="post" class="flexbox bg-blue-200 w-auto">
+    <form method="post" class="flexbox bg-blue-200 w-auto text-white    ">
         <table class="border-separate border-spacing-5 border border-slate-500 ">
             <tr>                
-                <th class=" border border-slate-600">Voedselpakket ID</th>
-                <th class="border-slate-600">Hoord bij klant</th>
-                <th class="border-slate-600">Samensteldatum</th>
-                <th class="border-slate-600">Uitgiftedatum</th>            
+                <th class=" border border-slate-600 bg-gray-500 text-sm">Voedselpakket ID</th>
+                <th class=" border border-slate-600 bg-gray-500 text-base">Hoord bij klant</th>
+                <th class=" border border-slate-600 bg-gray-500 text-base">Samensteldatum</th>
+                <th class=" border border-slate-600 bg-gray-500 text-base">Uitgiftedatum</th>            
             </tr>
                 <?php 
                     $prevVoedselpakket = null;
@@ -50,10 +50,10 @@ echo "Voedselbank Maaskantje";
                         while ($row = $result->fetch(PDO::FETCH_ASSOC)) { 
                             if ($row["idvoedselpakket"] != $prevVoedselpakket) {
                                 echo "<tr>";
-                                echo "<td class='border-slate-700'>" . $row["idvoedselpakket"] . "</td>";
-                                echo "<td>" . $row["naam"] . "</td>"; 
-                                echo "<td>" . $row["samensteldatum"] . "</td>"; 
-                                echo "<td>" . $row["uitgiftedatum"] . "</td>";
+                                echo "<td class='border border-slate-600 text-black >" . $row["idvoedselpakket"] . "</td>";
+                                echo "<td class='border border-slate-600 text-black'>" . $row["naam"] . "</td>"; 
+                                echo "<td class='border border-slate-600 text-black'>" . $row["samensteldatum"] . "</td>"; 
+                                echo "<td class='border border-slate-600 text-black'>" . $row["uitgiftedatum"] . "</td>";
                                 echo "</tr>";
                             }
                             $prevVoedselpakket = $row["idvoedselpakket"];
