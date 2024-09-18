@@ -42,7 +42,7 @@ echo "Voedselbank Maaskantje";
             </tr>
                 <?php 
                     $prevUser = null;
-                    $sql = "SELECT * FROM user ORDER BY iduser";
+                    $sql = "SELECT iduser, gebruikersnaam, idusertype FROM user ORDER BY iduser";
                     $result = $conn->query($sql);
                     
                     if ($result) {

@@ -46,7 +46,7 @@ echo "Voedselbank Maaskantje";
             </tr>
                 <?php 
                     $prevLeverancier = null;
-                    $sql = "SELECT * FROM leverancier ORDER BY idleverancier";
+                    $sql = "SELECT idleverancier, bedrijfsnaam, adres, naamcontact, emailadres, telefoonnummer, volgendelevering FROM leverancier ORDER BY idleverancier";
                     $result = $conn->query($sql);
                     
                     if ($result) {

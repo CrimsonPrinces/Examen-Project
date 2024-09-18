@@ -43,7 +43,7 @@ echo "Voedselbank Maaskantje";
             </tr>
                 <?php 
                     $prevVoedselpakket = null;
-                    $sql = "SELECT * FROM voedselpakket JOIN klant ON voedselpakket.idklant = klant.idklant ORDER BY voedselpakket.idklant";
+                    $sql = "SELECT idvoedselpakket, naam, samensteldatum, uitgiftedatum FROM voedselpakket JOIN klant ON voedselpakket.idklant = klant.idklant ORDER BY voedselpakket.idklant";
                     $result = $conn->query($sql);
                     
                     if ($result) {
