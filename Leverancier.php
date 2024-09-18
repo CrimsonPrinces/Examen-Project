@@ -69,9 +69,10 @@ echo "Voedselbank Maaskantje";
         </table>
     </form>
 </div>
-<button class="open-button" onclick="openForm()">Open Form</button>
+<button class="open-button" onclick="openEnterForm()">Toevoegen</button>
+<button class="open-button" onclick="openDeleteForm()">Verwijderen</button>
 
-<div class="form-popup" id="myForm">
+<div class="form-popup" id="myEnterForm">
   <form class="form-container" method="post">
     <h1>Leverancier toevoegen</h1>
 
@@ -88,37 +89,79 @@ echo "Voedselbank Maaskantje";
     <label for="nextdel"><b>Volgende levering</b></label>
     <input type="datetime-local" name="nextdel" required>
 
-    <button type="submit" class="btn">Toevoegen</button>
-    <button type="button" class="btn cancel" onclick="closeForm()">Sluiten</button>
+    <button type="submit" class="btn" name="add">Toevoegen</button>
+    <button type="button" class="btn cancel" onclick="closeEnterForm()">Sluiten</button>
+  </form>
+</div>
+<div class="form-popup-delete" id="myDeleteForm">
+  <form class="form-container-delete" method="post">
+    <h1>Leverancier verwijderen</h1>
+
+    <?php 
+        $sql2 = "SELECT idleverancier, bedrijfsnaam FROM leverancier";
+        $result2 = $conn->query($sql2); 
+        if ($result2) { 
+            while ($row = $result2->fetch(PDO::FETCH_ASSOC)) { 
+                echo "<input type='checkbox' name='leveranciers[]' value='" . $row["idleverancier"] . "'> " . $row["bedrijfsnaam"] . "<br>";
+            } 
+        }
+        print_r($result2->fetch(PDO::FETCH_ASSOC));
+    ?>
+
+    <button type="submit" class="btn" name="delete">Verwijderen</button>
+    <button type="button" class="btn cancel delete" onclick="closeDeleteForm()">Sluiten</button>
   </form>
 </div>
 <script>
-function openForm() {
-  document.getElementById("myForm").style.display = "block";
+function openEnterForm() {
+  document.getElementById("myEnterForm").style.display = "block";
 }
 
-function closeForm() {
-  document.getElementById("myForm").style.display = "none";
+function closeEnterForm() {
+  document.getElementById("myEnterForm").style.display = "none";
 }
 
-closeForm();
+closeEnterForm();
+
+function openDeleteForm() {
+  document.getElementById("myDeleteForm").style.display = "block";
+}
+
+function closeDeleteForm() {
+  document.getElementById("myDeleteForm").style.display = "none";
+}
+
+closeDeleteForm();
 </script>
 
 <?php
-    if($_SERVER["REQUEST_METHOD"] == "POST") {
-        $sql = $conn->prepare("INSERT INTO leverancier(bedrijfsnaam, adres, naamcontact, telefoonnummer, emailadres, volgendelevering) VALUES(?, ?, ?, ?, ?, ?)");
-        
-        $leverNaam = $_POST['leve'];
-        $leverAdres = $_POST['adres'];
-        $leverCont = $_POST['cont'];
-        $leverTele = $_POST['tel'];
-        $leverEmail = $_POST['email'];
-        $leverDeli = $_POST['nextdel'];
-        
-        $sql->execute([$leverNaam, $leverAdres, $leverCont, $leverTele, $leverEmail, $leverDeli]);
-        echo "Nieuwe leverancier toegevoegd.";
+    if (isset($_POST['add'])) {
+        if($_SERVER["REQUEST_METHOD"] == "POST") {
+            $sql = $conn->prepare("INSERT INTO leverancier(bedrijfsnaam, adres, naamcontact, telefoonnummer, emailadres, volgendelevering) VALUES(?, ?, ?, ?, ?, ?)");
+            
+            $leverNaam = $_POST['leve'];
+            $leverAdres = $_POST['adres'];
+            $leverCont = $_POST['cont'];
+            $leverTele = $_POST['tel'];
+            $leverEmail = $_POST['email'];
+            $leverDeli = $_POST['nextdel'];
+            
+            $sql->execute([$leverNaam, $leverAdres, $leverCont, $leverTele, $leverEmail, $leverDeli]);
+            echo "Nieuwe leverancier toegevoegd.";
 
-        header("Refresh: 3; url=Leverancier.php");
+            header("Refresh: 3; url=Leverancier.php");
+        }
+    } else if (isset($_POST['delete'])) {
+        if($_SERVER["REQUEST_METHOD"] == "POST") {
+            $leverDeletes = $_POST['leveranciers'];
+
+            foreach ($leverDeletes as $leverDelete) {
+                $sql = "DELETE FROM leverancier WHERE idleverancier = $leverDelete";
+                $conn->exec($sql);
+                echo "Leverancier verwijderd.";
+            }
+            header("Refresh: 3; url=Leverancier.php");
+        }
     }
 ?>
 </body>

@@ -82,5 +82,54 @@ echo "Voedselbank Maaskantje";
         </table>
     </form>
 </div>
+<button class="open-button" onclick="openForm()">Open Form</button>
+
+<div class="form-popup" id="myForm">
+  <form class="form-container" method="post">
+    <h1>Product toevoegen</h1>
+
+    <label for="stcd"><b>Streepjescode</b></label>
+    <input type="number" placeholder="13 cijfige code hier" name="stcd" required>
+    <label for="prnm"><b>Naam product</b></label>
+    <input type="text" placeholder="Naam toevoegen" name="prnm" required>
+    <label for="ctgr"><b>Categorie</b></label>
+    <input type="text" placeholder="Categorie toevoegen" name="ctgr" required>
+    <label for="amnt"><b>Aantal product</b></label>
+    <input type="number" placeholder="0" name="amnt" required>
+    <label for="date"><b>Verderfdatum</b></label>
+    <input type="date" name="date" required>
+    
+    <button type="submit" class="btn">Toevoegen</button>
+    <button type="button" class="btn cancel" onclick="closeForm()">Sluiten</button>
+  </form>
+</div>
+<script>
+function openForm() {
+  document.getElementById("myForm").style.display = "block";
+}
+
+function closeForm() {
+  document.getElementById("myForm").style.display = "none";
+}
+
+closeForm();
+</script>
+
+<?php
+    if($_SERVER["REQUEST_METHOD"] == "POST") {
+        $sql = $conn->prepare("INSERT INTO product(streepjescode, productnaam, categorie, aantal, verderfdatum) VALUES(?, ?, ?, ?, ?)");
+        
+        $prdctCode = $_POST['stcd'];
+        $prdctNaam = $_POST['prnm'];
+        $prdctCtgr = $_POST['ctgr'];
+        $prdctAantal = $_POST['amnt'];
+        $prdctDatum = $_POST['date'];
+        
+        $sql->execute([$prdctCode, $prdctNaam, $prdctCtgr, $prdctAantal, $prdctDatum]);
+        echo "Nieuw product toegevoegd.";
+
+        header("Refresh: 3; url=Voorraad.php");
+    }
+?>
 </body>
 </html>
