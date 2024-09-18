@@ -76,5 +76,64 @@ echo "Voedselbank Maaskantje";
         </table>
     </form>
 </div>
+
+<button class="open-button" onclick="openForm()">Open Form</button>
+
+<div class="form-popup" id="myForm">
+  <form class="form-container" method="post">
+    <h1>Klant toevoegen</h1>
+
+    <label for="naam"><b>Naam</b></label>
+    <input type="text" placeholder="Naam toevoegen" name="naam" required>
+    <label for="adres"><b>Adres</b></label>
+    <input type="text" placeholder="Adres toevoegen" name="adres" required>
+    <label for="tel"><b>Telefoonnummer</b></label>
+    <input type="number" placeholder="Telefoonnummer toevoegen" name="tel" required>
+    <label for="email"><b>Emailadres</b></label>
+    <input type="text" placeholder="Email toevoegen" name="email" required>
+    <label for="volwas"><b>Aantal volwassenen</b></label>
+    <input type="number" placeholder="0" name="volwas" required>
+    <label for="kind"><b>Aantal kinderen</b></label>
+    <input type="number" placeholder="0" name="kind">
+    <label for="baby"><b>Aantal baby's</b></label>
+    <input type="number" placeholder="0" name="baby">
+    <label for="wens"><b>Wensen</b></label>
+    <input type="text" placeholder="Wensen/allergiën toevoegen" name="wens">
+
+    <button type="submit" class="btn">Toevoegen</button>
+    <button type="button" class="btn cancel" onclick="closeForm()">Sluiten</button>
+  </form>
+</div>
+<script>
+function openForm() {
+  document.getElementById("myForm").style.display = "block";
+}
+
+function closeForm() {
+  document.getElementById("myForm").style.display = "none";
+}
+
+closeForm();
+</script>
+
+<?php
+    if($_SERVER["REQUEST_METHOD"] == "POST") {
+        $sql = $conn->prepare("INSERT INTO klant(naam, adres, telefoonnummer, email, aantalvolwassen, aantalkind, aantalbaby, wensen) VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
+        
+        $klantNaam = $_POST['naam'];
+        $klantAdres = $_POST['adres'];
+        $klantTel = $_POST['tel'];
+        $klantEmail = $_POST['email'];
+        $klantVolwas = $_POST['volwas'];
+        $klantKind = $_POST['kind'];
+        $klantBaby = $_POST['baby'];
+        $klantWens = $_POST['wens'];
+        
+        $sql->execute([$klantNaam, $klantAdres, $klantTel, $klantEmail, $klantVolwas, $klantKind, $klantBaby, $klantWens]);
+        echo "Nieuwe klant toegevoegd.";
+
+        header("Refresh: 3; url=Klanten.php");
+    }
+?>
 </body>
 </html>

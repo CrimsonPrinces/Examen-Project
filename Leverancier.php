@@ -69,5 +69,57 @@ echo "Voedselbank Maaskantje";
         </table>
     </form>
 </div>
+<button class="open-button" onclick="openForm()">Open Form</button>
+
+<div class="form-popup" id="myForm">
+  <form class="form-container" method="post">
+    <h1>Leverancier toevoegen</h1>
+
+    <label for="leve"><b>Naam leverancier</b></label>
+    <input type="text" placeholder="Leverancier naam toevoegen" name="leve" required>
+    <label for="adres"><b>Adres</b></label>
+    <input type="text" placeholder="Adres toevoegen" name="adres" required>
+    <label for="cont"><b>Naam contact</b></label>
+    <input type="text" placeholder="Contact naam toevoegen" name="cont" required>
+    <label for="tel"><b>Telefoonnummer</b></label>
+    <input type="number" placeholder="Telefoonnummer toevoegen" name="tel" required>
+    <label for="email"><b>Emailadres</b></label>
+    <input type="text" placeholder="Email toevoegen" name="email" required>
+    <label for="nextdel"><b>Volgende levering</b></label>
+    <input type="datetime-local" name="nextdel" required>
+
+    <button type="submit" class="btn">Toevoegen</button>
+    <button type="button" class="btn cancel" onclick="closeForm()">Sluiten</button>
+  </form>
+</div>
+<script>
+function openForm() {
+  document.getElementById("myForm").style.display = "block";
+}
+
+function closeForm() {
+  document.getElementById("myForm").style.display = "none";
+}
+
+closeForm();
+</script>
+
+<?php
+    if($_SERVER["REQUEST_METHOD"] == "POST") {
+        $sql = $conn->prepare("INSERT INTO leverancier(bedrijfsnaam, adres, naamcontact, telefoonnummer, emailadres, volgendelevering) VALUES(?, ?, ?, ?, ?, ?)");
+        
+        $leverNaam = $_POST['leve'];
+        $leverAdres = $_POST['adres'];
+        $leverCont = $_POST['cont'];
+        $leverTele = $_POST['tel'];
+        $leverEmail = $_POST['email'];
+        $leverDeli = $_POST['nextdel'];
+        
+        $sql->execute([$leverNaam, $leverAdres, $leverCont, $leverTele, $leverEmail, $leverDeli]);
+        echo "Nieuwe leverancier toegevoegd.";
+
+        header("Refresh: 3; url=Leverancier.php");
+    }
+?>
 </body>
 </html>

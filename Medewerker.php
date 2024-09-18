@@ -61,5 +61,58 @@ echo "Voedselbank Maaskantje";
         </table>
     </form>
 </div>
+<button class="open-button" onclick="openForm()">Open Form</button>
+<div class="form-popup" id="myForm">
+  <form class="form-container" method="post">
+    <h1>Medewerker toevoegen</h1>
+
+    <label for="user"><b>Gebruikersnaam</b></label>
+    <input type="text" placeholder="Gebruikersnaam toevoegen" name="user" required>
+    <label for="pass"><b>Wachtwoord</b></label>
+    <input type="password" placeholder="Wachtwoord toevoegen" name="pass" required>
+    <label for="repw"><b>Herhaal wachtwoord</b></label>
+    <input type="password" placeholder="Wachtwoord toevoegen" name="repw" required>
+    <label for="type"><b>Usertype</b></label>
+    <select name="type" id="type">
+        <option value="1">Admin</option>
+        <option value="2">Magazijnmedewerker</option>
+        <option value="3">Vrijwilliger</option>
+    </select>
+
+    <button type="submit" class="btn">Toevoegen</button>
+    <button type="button" class="btn cancel" onclick="closeForm()">Sluiten</button>
+  </form>
+</div>
+<script>
+function openForm() {
+  document.getElementById("myForm").style.display = "block";
+}
+
+function closeForm() {
+  document.getElementById("myForm").style.display = "none";
+}
+
+closeForm();
+</script>
+
+<?php
+    if($_SERVER["REQUEST_METHOD"] == "POST") {
+        $sql = $conn->prepare("INSERT INTO user(gebruikersnaam, wachtwoord, idusertype) VALUES(?, ?, ?)");
+        
+        $userNaam = $_POST['user'];
+        $userPass = $_POST['pass'];
+        $userRePass = $_POST['repw'];
+        $userType = $_POST['type'];
+
+
+        if ($userPass === $userRePass) {
+            $sql->execute([$userNaam, password_hash($userPass, PASSWORD_DEFAULT), $userType]);
+            echo "Nieuwe user toegevoegd.";
+            header("Refresh: 3; url=Medewerker.php");
+        } else {
+            echo "Wachtwoorden staan niet gelijk.";
+        }
+    }
+?>
 </body>
 </html>
