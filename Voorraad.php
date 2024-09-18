@@ -58,7 +58,7 @@ echo "Voedselbank Maaskantje";
                         $order = $_GET['sort'];
                     }
 
-                    $sql = 'SELECT * FROM product ORDER BY '.$order;
+                    $sql = 'SELECT streepjescode, productnaam, categorie, aantal, verderfdatum FROM product ORDER BY '.$order;
                     $result = $conn->query($sql);
                 ?>
             </thead>

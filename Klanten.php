@@ -52,7 +52,7 @@ echo "Voedselbank Maaskantje";
             </tr>
                 <?php 
                     $prevKlant = null;
-                    $sql = "SELECT * FROM klant ORDER BY idklant";
+                    $sql = "SELECT idklant, naam, adres, telefoonnummer, email, aantalvolwassen, aantalkind, aantalbaby, wensen FROM klant ORDER BY idklant";
                     $result = $conn->query($sql);
                     
                     if ($result) {
