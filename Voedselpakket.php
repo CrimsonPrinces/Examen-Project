@@ -1,4 +1,5 @@
 <?php
+    ob_start();
     require_once("db_login.php");
 
     if (!isset($_SESSION["usertype"])) {
@@ -31,8 +32,11 @@ echo "Voedselbank Maaskantje";
     </div>
 </div>
 <h2 class="text-lg border-b border-black mb-3"> Voedselpakket</h2>
-
-
+<div>
+<?php 
+    
+?>
+</div>
 <div class="bg-gray-200">
     <form method="post" class="flexbox bg-gray-200">
         <table class="border-separate border-spacing-5 border">

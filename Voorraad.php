@@ -1,12 +1,13 @@
 <?php
+    ob_start();
     require_once("db_login.php");
 
-  if (!isset($_SESSION["usertype"])) {
-    header("Location: index.php");
-  } // FIlter om te checken of je vrijwilligerbent zoja redirect
-   else if ($_SESSION["usertype"] == 3) {
-    header("Location: home.php");
-  }
+    if (!isset($_SESSION["usertype"])) {
+        header("Location: index.php");
+    } // FIlter om te checken of je vrijwilligerbent zoja redirect
+    else if ($_SESSION["usertype"] == 3) {
+        header("Location: home.php");
+    }
 ?>
 
 
