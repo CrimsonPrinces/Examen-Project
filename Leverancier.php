@@ -156,7 +156,7 @@ closeDeleteForm();
             $leverDeletes = $_POST['leveranciers'];
 
             foreach ($leverDeletes as $leverDelete) {
-                $sql = "DELETE FROM leverancier WHERE idleverancier = $leverDelete";
+                $sql = "DELETE FROM leverancier WHERE idleverancier = $leverDelete"; //maak het een prepare kutje
                 $conn->exec($sql);
                 echo "Leverancier verwijderd.";
             }

@@ -50,7 +50,7 @@ echo "Voedselbank Maaskantje";
                         while ($row = $result->fetch(PDO::FETCH_ASSOC)) { 
                             if ($row["idvoedselpakket"] != $prevVoedselpakket) {
                                 echo "<tr>";
-                                echo "<td class='border border-slate-600 text-black >" . $row["idvoedselpakket"] . "</td>";
+                                echo "<td class='border border-slate-600 text-black'>" . $row["idvoedselpakket"] . "</td>";
                                 echo "<td class='border border-slate-600 text-black'>" . $row["naam"] . "</td>"; 
                                 echo "<td class='border border-slate-600 text-black'>" . $row["samensteldatum"] . "</td>"; 
                                 echo "<td class='border border-slate-600 text-black'>" . $row["uitgiftedatum"] . "</td>";

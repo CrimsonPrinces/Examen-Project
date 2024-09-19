@@ -10,5 +10,6 @@ switch($_SESSION["usertype"]){
     echo "<a href='Voorraad.php' class='mx-5'> Voorraad </a>";
     break;
     case 2:
-    echo "<a href='Voorraad.php' class='mx-5'> Voorraad </a>";  
+    echo "<a href='Voorraad.php' class='mx-5'> Voorraad </a>";
+    // maak de andere 2 de default
 }
