@@ -1,4 +1,5 @@
 <?php
+    ob_start();
     require_once("db_login.php");
 
     if (!isset($_SESSION["usertype"])) {
@@ -26,11 +27,14 @@
     </div>
 </div>
 <h2 class="text-lg border-b border-black mb-3"> Voedselpakket</h2>
-
-
-<div class="max-w-xl">
-    <form method="post" class="flexbox bg-blue-200 w-auto text-white    ">
-        <table class="border-separate border-spacing-5 border border-slate-500 ">
+<div>
+<?php 
+    
+?>
+</div>
+<div class="bg-gray-200">
+    <form method="post" class="flexbox bg-gray-200">
+        <table class="border-separate border-spacing-5 border">
             <tr>                
                 <th class=" border border-slate-600 bg-gray-500 text-sm">Voedselpakket ID</th>
                 <th class=" border border-slate-600 bg-gray-500 text-base">Hoord bij klant</th>

@@ -1,4 +1,5 @@
 <?php
+    ob_start();
     require_once("db_login.php");
 
     if ($_SESSION["usertype"] != 1) {
@@ -130,7 +131,7 @@ closeDeleteForm();
 </script>
 
 <?php
-    if (isset($_POST['add'])) {
+    if(isset($_POST['add'])) {
         if($_SERVER["REQUEST_METHOD"] == "POST") {
             $sql = $conn->prepare("INSERT INTO leverancier(bedrijfsnaam, adres, naamcontact, telefoonnummer, emailadres, volgendelevering) VALUES(?, ?, ?, ?, ?, ?)");
             
@@ -146,7 +147,7 @@ closeDeleteForm();
 
             header("Refresh: 3; url=Leverancier.php");
         }
-    } else if (isset($_POST['delete'])) {
+    } else if(isset($_POST['delete'])) {
         if($_SERVER["REQUEST_METHOD"] == "POST") {
             $leverDeletes = $_POST['leveranciers'];
 

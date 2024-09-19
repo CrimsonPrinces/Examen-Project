@@ -1,4 +1,5 @@
 <?php
+    ob_start();
     require_once("db_login.php");
 
     if (isset($_SESSION["usertype"])) {
@@ -28,12 +29,10 @@
 
 <?php
 if($_SERVER["REQUEST_METHOD"] == "POST") {
+  $stmt = $conn->prepare("SELECT iduser, gebruikersnaam, wachtwoord, idusertype FROM user WHERE gebruikersnaam = ?");
   $user = $_POST['userName'];
   $pass = $_POST['passWord'];
-
-  $stmt = $conn->prepare("SELECT * FROM user WHERE gebruikersnaam = :user");
-  $stmt->bindParam(':user', $user);
-  $stmt->execute();
+  $stmt->execute([$user]);
 
   $result = $stmt->fetch(PDO::FETCH_ASSOC);
 

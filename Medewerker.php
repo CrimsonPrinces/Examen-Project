@@ -1,4 +1,5 @@
 <?php
+    ob_start();
     require_once("db_login.php");
 
     if ($_SESSION["usertype"] != 1) {
@@ -56,8 +57,10 @@
         </table>
     </form>
 </div>
-<button class="open-button" onclick="openForm()">Open Form</button>
-<div class="form-popup" id="myForm">
+<button class="open-button" onclick="openEnterForm()">Toevoegen</button>
+<button class="open-button" onclick="openDeleteForm()">Verwijderen</button>
+
+<div class="form-popup" id="myEnterForm">
   <form class="form-container" method="post">
     <h1>Medewerker toevoegen</h1>
 
@@ -74,38 +77,80 @@
         <option value="3">Vrijwilliger</option>
     </select>
 
-    <button type="submit" class="btn">Toevoegen</button>
-    <button type="button" class="btn cancel" onclick="closeForm()">Sluiten</button>
+    <button type="submit" class="btn" name="add">Toevoegen</button>
+    <button type="button" class="btn cancel" onclick="closeEnterForm()">Sluiten</button>
+  </form>
+</div>
+<div class="form-popup-delete" id="myDeleteForm">
+  <form class="form-container-delete" method="post">
+    <h1>Medewerker verwijderen</h1>
+
+    <?php 
+        $sql2 = "SELECT iduser, gebruikersnaam FROM user";
+        $result2 = $conn->query($sql2); 
+        if ($result2) { 
+            while ($row = $result2->fetch(PDO::FETCH_ASSOC)) { 
+                echo "<input type='checkbox' name='users[]' value='" . $row["iduser"] . "'> " . $row["gebruikersnaam"] . "<br>";
+            } 
+        }
+        print_r($result2->fetch(PDO::FETCH_ASSOC));
+    ?>
+
+    <button type="submit" class="btn" name="delete">Verwijderen</button>
+    <button type="button" class="btn cancel delete" onclick="closeDeleteForm()">Sluiten</button>
   </form>
 </div>
 <script>
-function openForm() {
-  document.getElementById("myForm").style.display = "block";
+function openEnterForm() {
+  document.getElementById("myEnterForm").style.display = "block";
 }
 
-function closeForm() {
-  document.getElementById("myForm").style.display = "none";
+function closeEnterForm() {
+  document.getElementById("myEnterForm").style.display = "none";
 }
 
-closeForm();
+closeEnterForm();
+
+function openDeleteForm() {
+  document.getElementById("myDeleteForm").style.display = "block";
+}
+
+function closeDeleteForm() {
+  document.getElementById("myDeleteForm").style.display = "none";
+}
+
+closeDeleteForm();
 </script>
 
 <?php
-    if($_SERVER["REQUEST_METHOD"] == "POST") {
-        $sql = $conn->prepare("INSERT INTO user(gebruikersnaam, wachtwoord, idusertype) VALUES(?, ?, ?)");
-        
-        $userNaam = $_POST['user'];
-        $userPass = $_POST['pass'];
-        $userRePass = $_POST['repw'];
-        $userType = $_POST['type'];
+    if(isset($_POST['add'])) {
+        if($_SERVER["REQUEST_METHOD"] == "POST") {
+            $sql = $conn->prepare("INSERT INTO user(gebruikersnaam, wachtwoord, idusertype) VALUES(?, ?, ?)");
+            
+            $userNaam = $_POST['user'];
+            $userPass = $_POST['pass'];
+            $userRePass = $_POST['repw'];
+            $userType = $_POST['type'];
 
 
-        if ($userPass === $userRePass) {
-            $sql->execute([$userNaam, password_hash($userPass, PASSWORD_DEFAULT), $userType]);
-            echo "Nieuwe user toegevoegd.";
+            if ($userPass === $userRePass) {
+                $sql->execute([$userNaam, password_hash($userPass, PASSWORD_DEFAULT), $userType]);
+                echo "Nieuwe user toegevoegd.";
+                header("Refresh: 3; url=Medewerker.php");
+            } else {
+                echo "Wachtwoorden staan niet gelijk.";
+            }
+        }
+    } else if (isset($_POST['delete'])) {
+        if($_SERVER["REQUEST_METHOD"] == "POST") {
+            $userDeletes = $_POST['users'];
+
+            foreach ($userDeletes as $userDelete) {
+                $sql = "DELETE FROM user WHERE iduser = $userDelete";
+                $conn->exec($sql);
+                echo "Medewerker verwijderd.";
+            }
             header("Refresh: 3; url=Medewerker.php");
-        } else {
-            echo "Wachtwoorden staan niet gelijk.";
         }
     }
 ?>
