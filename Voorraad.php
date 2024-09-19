@@ -20,16 +20,12 @@
 </head>
 <body class = "p-8">
 <div class="flex">
-<?php
 
-echo "Voedselbank Maaskantje";
-?>
+<h2>Voedselbank Maaskantje</h2>;
    <div class="mb-20">
     <a href='home.php' class= "mx-5"> Home </a>
     <?php require_once("Switches.php");
      ?>
-    <a href='Voedselpakket.php' class="mx-5"> Voedselpakket </a>
-    <a href='index.php' class= "mx-5"> Uitloggen </a>
     </div>
 </div>
 

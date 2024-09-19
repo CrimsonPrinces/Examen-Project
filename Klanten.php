@@ -20,34 +20,29 @@
 </head>
 <body class="p-8">
     <div class="flex">
-<?php
-
-echo "Voedselbank Maaskantje";
-?>
+<h2>Voedselbank Maaskantje</h2>
     <div class="mb-20">
     <a href='home.php' class= "mx-5"> Home </a>
     <?php require_once("Switches.php");
      ?>
-    <a href='Voedselpakket.php' class="mx-5"> Voedselpakket </a>
-    <a href='index.php' class= "mx-5"> Uitloggen </a>
     </div>
     </div>
     <h2 class="text-lg border-b border-black mb-3"> Klanten</h2>
 
 
-<div class="bg-gray-200">
-<form method="post" class="flexbox bg-gray-200">
+<div class="max-w-5xl">
+<form method="post" class="flexbox bg-blue-200 text-white">
         <table class="border-separate border-spacing-5 border">
             <tr>                
-                <th>Klant ID</th>
-                <th>Naam</th>
-                <th>Adres</th>
-                <th>Telefoonnummer</th>
-                <th>E-mailadres</th>
-                <th>Aantal volwassenen</th>
-                <th>Aantal kinderen</th>
-                <th>Aantal baby's</th>
-                <th>Wensen</th>            
+                <th class="border border-slate-600 bg-gray-500 text-base">Klant ID</th>
+                <th class="border border-slate-600 bg-gray-500 text-base">Naam</th>
+                <th class="border border-slate-600 bg-gray-500 text-base">Adres</th>
+                <th class="border border-slate-600 bg-gray-500 text-base">Telefoonnummer</th>
+                <th class="border border-slate-600 bg-gray-500 text-base">E-mailadres</th>
+                <th class="border border-slate-600 bg-gray-500 text-base">Aantal volwassenen</th>
+                <th class="border border-slate-600 bg-gray-500 text-base">Aantal kinderen</th>
+                <th class="border border-slate-600 bg-gray-500 text-base">Aantal baby's</th>
+                <th class="border border-slate-600 bg-gray-500 text-base">Wensen</th>            
             </tr>
                 <?php 
                     $prevKlant = null;
@@ -58,15 +53,15 @@ echo "Voedselbank Maaskantje";
                         while ($row = $result->fetch(PDO::FETCH_ASSOC)) { 
                             if ($row["idklant"] != $prevKlant) {
                                 echo "<tr>";
-                                echo "<td>" . $row["idklant"] . "</td>";
-                                echo "<td>" . $row["naam"] . "</td>"; 
-                                echo "<td>" . $row["adres"] . "</td>"; 
-                                echo "<td>" . $row["telefoonnummer"] . "</td>";
-                                echo "<td>" . $row["email"] . "</td>";
-                                echo "<td>" . $row["aantalvolwassen"] . "</td>";
-                                echo "<td>" . $row["aantalkind"] . "</td>";
-                                echo "<td>" . $row["aantalbaby"] . "</td>";
-                                echo "<td>" . $row["wensen"] . "</td>";
+                                echo "<td class='border border-slate-600 text-black'>" . $row["idklant"] . "</td>";
+                                echo "<td class='border border-slate-600 text-black'>" . $row["naam"] . "</td>"; 
+                                echo "<td class='border border-slate-600 text-black'>" . $row["adres"] . "</td>"; 
+                                echo "<td class='border border-slate-600 text-black'>" . $row["telefoonnummer"] . "</td>";
+                                echo "<td class='border border-slate-600 text-black'>" . $row["email"] . "</td>";
+                                echo "<td class='border border-slate-600 text-black'>" . $row["aantalvolwassen"] . "</td>";
+                                echo "<td class='border border-slate-600 text-black'>" . $row["aantalkind"] . "</td>";
+                                echo "<td class='border border-slate-600 text-black'>" . $row["aantalbaby"] . "</td>";
+                                echo "<td class='border border-slate-600 text-black'    >" . $row["wensen"] . "</td>";
                                 echo "</tr>";
                             }
                             $prevKlant = $row["idklant"];
@@ -81,27 +76,43 @@ echo "Voedselbank Maaskantje";
 
 <div class="form-popup" id="myForm">
   <form class="form-container" method="post">
-    <h1>Klant toevoegen</h1>
-
-    <label for="naam"><b>Naam</b></label>
-    <input type="text" placeholder="Naam toevoegen" name="naam" required>
-    <label for="adres"><b>Adres</b></label>
-    <input type="text" placeholder="Adres toevoegen" name="adres" required>
-    <label for="tel"><b>Telefoonnummer</b></label>
-    <input type="number" placeholder="Telefoonnummer toevoegen" name="tel" required>
-    <label for="email"><b>Emailadres</b></label>
-    <input type="text" placeholder="Email toevoegen" name="email" required>
-    <label for="volwas"><b>Aantal volwassenen</b></label>
-    <input type="number" placeholder="0" name="volwas" required>
-    <label for="kind"><b>Aantal kinderen</b></label>
-    <input type="number" placeholder="0" name="kind">
-    <label for="baby"><b>Aantal baby's</b></label>
-    <input type="number" placeholder="0" name="baby">
-    <label for="wens"><b>Wensen</b></label>
-    <input type="text" placeholder="Wensen/allergiën toevoegen" name="wens">
-
-    <button type="submit" class="btn">Toevoegen</button>
-    <button type="button" class="btn cancel" onclick="closeForm()">Sluiten</button>
+    <h2>Klant toevoegen</h2>
+    <div class=" grid grid-cols-3">
+        <div>
+        <label for="naam"><b>Naam</b></label>
+        <input class="border border-separate border-black" type="text" placeholder="Naam toevoegen" name="naam" required>
+        </div>
+        <div>
+        <label for="adres"><b>Adres</b></label>
+        <input class="border border-separate border-black" type="text" placeholder="Adres toevoegen" name="adres" required>
+        </div>
+        <div>
+        <label for="tel"><b>Telefoonnummer</b></label>
+        <input class="border border-separate border-black" type="number" placeholder="Telefoonnummer toevoegen" name="tel" required>
+        </div>
+        <div>
+        <label for="email"><b>Emailadres</b></label>
+        <input class="border border-separate border-black" type="text" placeholder="Email toevoegen" name="email" required>
+        </div>
+        <div>
+        <label for="volwas"><b>Aantal volwassenen</b></label>
+        <input class="border border-separate border-black" type="number" placeholder="0" name="volwas" required>
+        </div>
+        <div>
+        <label for="kind"><b>Aantal kinderen</b></label>
+        <input class="border border-separate border-black" type="number" placeholder="0" name="kind">
+        </div>
+        <div>
+        <label for="baby"><b>Aantal baby's</b></label>
+        <input class="border border-separate border-black" type="number" placeholder="0" name="baby">
+        </div>
+        <div>
+        <label for="wens"><b>Wensen</b></label>
+        <input class="border border-separate border-black" type="text" placeholder="Wensen/allergiën toevoegen" name="wens">
+        </div>
+        </div>
+        <button class="text-black bg-white border border-black mt-5 hover:bg-green-500 hover:text-white " type="submit" class="btn">Toevoegen</button>
+        <button class ="text-black bg-white border border-black mt-5 hover:bg-red-500 hover:text-white " type="button" class="btn cancel" onclick="closeForm()">Sluiten</button>
   </form>
 </div>
 <script>
