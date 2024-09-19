@@ -113,8 +113,27 @@
         <input class="border border-separate border-black" type="text" placeholder="Wensen/allergiën toevoegen" name="wens">
         </div>
         </div>
-        <button class="text-black bg-white border border-black mt-5 hover:bg-green-500 hover:text-white " type="submit" class="btn">Toevoegen</button>
-        <button class ="text-black bg-white border border-black mt-5 hover:bg-red-500 hover:text-white " type="button" class="btn cancel" onclick="closeForm()">Sluiten</button>
+        <button class="text-black bg-white border border-black mt-5 hover:bg-green-500 hover:text-white " type="submit" class="btn" name="add">Toevoegen</button>
+        <button class ="text-black bg-white border border-black mt-5 hover:bg-red-500 hover:text-white " type="button" class="btn cancel" onclick="closeEnterForm()">Sluiten</button>
+  </form>
+</div>
+<div class="form-popup-delete" id="myDeleteForm">
+  <form class="form-container-delete" method="post">
+    <h1>Klant verwijderen</h1>
+
+    <?php 
+        $sql2 = "SELECT idklant, naam FROM klant";
+        $result2 = $conn->query($sql2); 
+        if ($result2) { 
+            while ($row = $result2->fetch(PDO::FETCH_ASSOC)) { 
+                echo "<input type='checkbox' name='klanten[]' value='" . $row["idklant"] . "'> " . $row["naam"] . "<br>";
+            } 
+        }
+        print_r($result2->fetch(PDO::FETCH_ASSOC));
+    ?>
+
+    <button type="submit" class="btn" name="delete">Verwijderen</button>
+    <button type="button" class="btn cancel delete" onclick="closeDeleteForm()">Sluiten</button>
   </form>
 </div>
 <script>
