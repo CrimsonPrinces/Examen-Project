@@ -37,11 +37,11 @@
                 <th>User Type</th>      
             </tr>
                 <?php 
-                    $prevUser = null;
                     $sql = "SELECT iduser, gebruikersnaam, idusertype FROM user ORDER BY iduser";
                     $result = $conn->query($sql);
                     
                     if ($result) {
+                        $prevUser = null;
                         while ($row = $result->fetch(PDO::FETCH_ASSOC)) { 
                             if ($row["iduser"] != $prevUser) {
                                 echo "<tr>";
@@ -146,8 +146,8 @@ closeDeleteForm();
             $userDeletes = $_POST['users'];
 
             foreach ($userDeletes as $userDelete) {
-                $sql = "DELETE FROM user WHERE iduser = $userDelete";
-                $conn->exec($sql);
+                $sql = $conn->prepare("DELETE FROM user WHERE iduser = ?");
+                $sql->execute([$userDelete]);
                 echo "Medewerker verwijderd.";
             }
             header("Refresh: 3; url=Medewerker.php");

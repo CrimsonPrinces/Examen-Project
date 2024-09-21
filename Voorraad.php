@@ -37,9 +37,6 @@
     <form method="post" class="bg-gray-200">
         <table class= "border-separate border-spacing-5 border">
             <thead>
-                <?php                     
-                    $prevProduct = null;
-                    ?>
                 <tr>
                     <th><a href="Voorraad.php?sort=streepjescode">Streepjescode</a></th>
                     <th><a href="Voorraad.php?sort=productnaam">Productnaam</a></th>
@@ -61,7 +58,8 @@
             <tbody>
                 <?php 
                     if ($result) {
-                        while ($row = $result->fetch(PDO::FETCH_ASSOC)) { 
+                        while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+                            $prevProduct = null; 
                             if ($row["streepjescode"] != $prevProduct) {
                                 echo "<tr>";
                                 echo "<td>" . $row["streepjescode"] . "</td>";
