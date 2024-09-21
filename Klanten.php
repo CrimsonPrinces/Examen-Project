@@ -132,8 +132,8 @@
         print_r($result2->fetch(PDO::FETCH_ASSOC));
     ?>
 
-    <button type="submit" class="btn" name="delete">Verwijderen</button>
-    <button type="button" class="btn cancel delete" onclick="closeDeleteForm()">Sluiten</button>
+    <button class="text-black bg-white border border-black mt-5 hover:bg-orange-300 hover:text-white " type="submit" class="btn" name="delete">Verwijderen</button>
+    <button class ="text-black bg-white border border-black mt-5 hover:bg-red-500 hover:text-white " type="button" class="btn cancel delete" onclick="closeDeleteForm()">Sluiten</button>
   </form>
 </div>
 <script>
