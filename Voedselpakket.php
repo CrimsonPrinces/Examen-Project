@@ -36,7 +36,7 @@
     
     
     while ($row = $resKlantDisplay->fetch(PDO::FETCH_ASSOC)){
-        echo "<option value='" . $row["idklant"] . "'>" . $row["naam"] . "</option>";
+        echo "<option class='border border-black hover:border-black' value='" . $row["idklant"] . "'>" . $row["naam"] . "</option>";
     }
 ?>
         </select>
@@ -71,8 +71,8 @@ function openWens() {
     }*/
 ?>
 </div>
-<div class="bg-gray-200">
-    <form method="post" class="flexbox bg-gray-200">
+<div class="max-w-xl">
+    <form method="post" class="flexbox bg-blue-200 text-white">
         <table class="border-separate border-spacing-5 border">
             <tr>                
                 <th class=" border border-slate-600 bg-gray-500 text-sm">Voedselpakket ID</th>
@@ -102,7 +102,7 @@ function openWens() {
         </table>
     </form>
 </div>
-<button class="open-button" onclick="openEnterForm()">Toevoegen</button>
+<button class="open-button bg-green-500 text-white border border-black hover:bg-green-900 mt-5" onclick="openEnterForm()">Toevoegen</button>
 
 <div class="form-popup" id="myEnterForm">
   <form class="form-container" method="post">
@@ -135,8 +135,8 @@ function openWens() {
     }
     ?>
 
-    <button type="submit" class="btn" name="add">Toevoegen</button>
-    <button type="button" class="btn cancel" onclick="closeEnterForm()">Sluiten</button>
+    <button class="text-black bg-white border border-black mt-5 hover:bg-green-500 hover:text-white " type="submit" class="btn" name="add">Toevoegen</button>
+    <button class="text-black bg-white border border-black mt-5 hover:bg-red-500 hover:text-white " type="button" class="btn cancel" onclick="closeEnterForm()">Sluiten</button>
   </form>
 </div>
 <script>

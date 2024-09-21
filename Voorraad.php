@@ -33,16 +33,16 @@
 <h2 class="text-lg border-b border-black mb-3"> Voorraad</h2>
 
 
-<div class="bg-gray-200">
-    <form method="post" class="bg-gray-200">
+<div class="max-w-3xl">
+    <form method="post" class="flexbox bg-blue-200">
         <table class= "border-separate border-spacing-5 border">
             <thead>
                 <tr>
-                    <th><a href="Voorraad.php?sort=streepjescode">Streepjescode</a></th>
-                    <th><a href="Voorraad.php?sort=productnaam">Productnaam</a></th>
-                    <th><a href="Voorraad.php?sort=categorie">Categorie</a></th>
-                    <th><a href="Voorraad.php?sort=aantal">Aantal</a></th>
-                    <th><a href="Voorraad.php?sort=verderfdatum">Verderfdatum</a></th>            
+                    <th class="border border-slate-600 bg-gray-500 text-base"><a class="text-white" href="Voorraad.php?sort=streepjescode">Streepjescode</a></th>
+                    <th class="border border-slate-600 bg-gray-500 text-base"><a class="text-white" href="Voorraad.php?sort=productnaam">Productnaam</a></th>
+                    <th class="border border-slate-600 bg-gray-500 text-base"><a class="text-white" href="Voorraad.php?sort=categorie">Categorie</a></th>
+                    <th class="border border-slate-600 bg-gray-500 text-base"><a class="text-white" href="Voorraad.php?sort=aantal">Aantal</a></th>
+                    <th class="border border-slate-600 bg-gray-500 text-base"><a class="text-white" href="Voorraad.php?sort=verderfdatum">Verderfdatum</a></th>            
                 </tr>
                 <?php
                     $sort = array('streepjescode', 'productnaam', 'categorie', 'aantal', 'verderfdatum');
@@ -62,11 +62,11 @@
                             $prevProduct = null; 
                             if ($row["streepjescode"] != $prevProduct) {
                                 echo "<tr>";
-                                echo "<td>" . $row["streepjescode"] . "</td>";
-                                echo "<td>" . $row["productnaam"] . "</td>"; 
-                                echo "<td>" . $row["categorie"] . "</td>"; 
-                                echo "<td>" . $row["aantal"] . "</td>";
-                                echo "<td>" . $row["verderfdatum"] . "</td>";
+                                echo "<td class='border border-slate-600 text-black'>" . $row["streepjescode"] . "</td>";
+                                echo "<td class='border border-slate-600 text-black'>" . $row["productnaam"] . "</td>"; 
+                                echo "<td class='border border-slate-600 text-black'>" . $row["categorie"] . "</td>"; 
+                                echo "<td class='border border-slate-600 text-black'>" . $row["aantal"] . "</td>";
+                                echo "<td class='border border-slate-600 text-black'>" . $row["verderfdatum"] . "</td>";
                                 echo "</tr>";
                             }
                             $prevProduct = $row["streepjescode"];
@@ -77,25 +77,35 @@
         </table>
     </form>
 </div>
-<button class="open-button" onclick="openForm()">Open Form</button>
+<button class="open-button bg-blue-500 text-white border border-black hover:bg-blue-900" onclick="openForm()">Open Form</button>
 
 <div class="form-popup" id="myForm">
   <form class="form-container" method="post">
-    <h1>Product toevoegen</h1>
-
-    <label for="stcd"><b>Streepjescode</b></label>
-    <input type="number" placeholder="13 cijfige code hier" name="stcd" required>
-    <label for="prnm"><b>Naam product</b></label>
-    <input type="text" placeholder="Naam toevoegen" name="prnm" required>
-    <label for="ctgr"><b>Categorie</b></label>
-    <input type="text" placeholder="Categorie toevoegen" name="ctgr" required>
-    <label for="amnt"><b>Aantal product</b></label>
-    <input type="number" placeholder="0" name="amnt" required>
-    <label for="date"><b>Verderfdatum</b></label>
-    <input type="date" name="date" required>
-    
-    <button type="submit" class="btn">Toevoegen</button>
-    <button type="button" class="btn cancel" onclick="closeForm()">Sluiten</button>
+    <h2>Product toevoegen</h2>
+    <div class="grid grid-cols-3">
+        <div>
+            <label for="stcd"><b>Streepjescode</b></label>
+            <input type="number" placeholder="13 cijfige code hier" name="stcd" required>
+        </div>
+        <div>
+            <label for="prnm"><b>Naam product</b></label>
+            <input type="text" placeholder="Naam toevoegen" name="prnm" required>
+        </div>
+        <div>
+            <label for="ctgr"><b>Categorie</b></label>
+            <input type="text" placeholder="Categorie toevoegen" name="ctgr" required>
+        </div>
+        <div>
+            <label for="amnt"><b>Aantal product</b></label>
+            <input type="number" placeholder="0" name="amnt" required>
+        </div>
+        <div>
+            <label for="date"><b>Verderfdatum</b></label>
+            <input type="date" name="date" required>
+        </div>
+        </div>
+    <button class="text-black bg-white border border-black mt-5 hover:bg-green-500 hover:text-white " type="submit" class="btn">Toevoegen</button>
+    <button class="text-black bg-white border border-black mt-5 hover:bg-red-500 hover:text-white " type="button" class="btn cancel" onclick="closeForm()">Sluiten</button>
   </form>
 </div>
 <script>
