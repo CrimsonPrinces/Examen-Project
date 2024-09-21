@@ -46,12 +46,12 @@
                 <th class="border border-slate-600 bg-gray-500 text-base">Wensen</th>            
             </tr>
                 <?php 
-                    $prevKlant = null;
                     $sql = "SELECT idklant, naam, adres, telefoonnummer, email, aantalvolwassen, aantalkind, aantalbaby, wensen FROM klant ORDER BY idklant";
                     $result = $conn->query($sql);
                     
                     if ($result) {
-                        while ($row = $result->fetch(PDO::FETCH_ASSOC)) { 
+                        while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+                            $prevKlant = null;
                             if ($row["idklant"] != $prevKlant) {
                                 echo "<tr>";
                                 echo "<td class='border border-slate-600 text-black'>" . $row["idklant"] . "</td>";
@@ -182,8 +182,8 @@ closeDeleteForm();
             $klantDeletes = $_POST['klanten'];
 
             foreach ($klantDeletes as $klantDelete) {
-                $sql = "DELETE FROM klant WHERE idklant = $klantDelete";
-                $conn->exec($sql);
+                $sql = $conn->prepare("DELETE FROM klant WHERE idklant = ?");
+                $sql->execute([$klantDelete]);
                 echo "Klant verwijderd.";
             }
             header("Refresh: 3; url=Klanten.php");

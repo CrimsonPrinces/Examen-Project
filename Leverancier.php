@@ -41,12 +41,12 @@
                 <th>Volgende Levering</th>      
             </tr>
                 <?php 
-                    $prevLeverancier = null;
                     $sql = "SELECT idleverancier, bedrijfsnaam, adres, naamcontact, emailadres, telefoonnummer, volgendelevering FROM leverancier ORDER BY idleverancier";
                     $result = $conn->query($sql);
                     
                     if ($result) {
-                        while ($row = $result->fetch(PDO::FETCH_ASSOC)) { 
+                        while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+                            $prevLeverancier = null;
                             if ($row["idleverancier"] != $prevLeverancier) {
                                 echo "<tr>";
                                 echo "<td>" . $row["idleverancier"] . "</td>";
@@ -152,8 +152,8 @@ closeDeleteForm();
             $leverDeletes = $_POST['leveranciers'];
 
             foreach ($leverDeletes as $leverDelete) {
-                $sql = "DELETE FROM leverancier WHERE idleverancier = $leverDelete"; //maak het een prepare kutje
-                $conn->exec($sql);
+                $sql = $conn->prepare("DELETE FROM leverancier WHERE idleverancier = ?");
+                $sql->execute([$leverDelete]);
                 echo "Leverancier verwijderd.";
             }
             header("Refresh: 3; url=Leverancier.php");
