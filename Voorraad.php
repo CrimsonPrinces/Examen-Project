@@ -4,9 +4,9 @@
 
     if (!isset($_SESSION["usertype"])) {
         header("Location: index.php");
-    } // FIlter om te checken of je vrijwilligerbent zoja redirect
+    } // FIlter om te checken of je vrijwilliger bent zoja redirect
     else if ($_SESSION["usertype"] == 3) {
-        header("Location: home.php");
+        header("Location: Voedselpakket.php");
     }
 ?>
 
@@ -24,7 +24,6 @@
 
 <h2>Voedselbank Maaskantje</h2>;
    <div class="mb-20">
-    <a href='home.php' class= "mx-5"> Home </a>
     <?php require_once("Switches.php");
      ?>
     </div>
@@ -81,27 +80,35 @@
 
 <div class="form-popup" id="myForm">
   <form class="form-container" method="post">
-    <h2>Product toevoegen</h2>
+    <h2 class="text-lg border-b border-black mt-3 mb-3">Product toevoegen</h2>
     <div class="grid grid-cols-3">
         <div>
             <label for="stcd"><b>Streepjescode</b></label>
-            <input type="number" placeholder="13 cijfige code hier" name="stcd" required>
+            <input class="border border-separate border-black" type="number" placeholder="13 cijfige code hier" name="stcd" required>
         </div>
         <div>
             <label for="prnm"><b>Naam product</b></label>
-            <input type="text" placeholder="Naam toevoegen" name="prnm" required>
+            <input class="border border-separate border-black" type="text" placeholder="Naam toevoegen" name="prnm" required>
         </div>
         <div>
             <label for="ctgr"><b>Categorie</b></label>
-            <input type="text" placeholder="Categorie toevoegen" name="ctgr" required>
+            <!-- <select>
+                <option value="Aardappels, groente, fruit">Aardappels, groente, fruit</option>
+                <option value="Kaas, vleeswaren">Kaas, vleeswaren</option>
+                <option value="Zuivel, plantaardig en eieren">Zuivel, plantaardig en eieren</option>
+                <option value="Bakkerij en banket">Bakkerij en banket</option>
+                <option value="Frisdrank, sappen, koffie en thee">Frisdrank, sappen, koffie en thee</option>
+                <option value="Pasta, rijst en wereldkeuken">Pasta, rijst en wereldkeuken</option>
+        </select> -->
+            <input class="border border-separate border-black" type="text" placeholder="Categorie toevoegen" name="ctgr" required> 
         </div>
         <div>
             <label for="amnt"><b>Aantal product</b></label>
-            <input type="number" placeholder="0" name="amnt" required>
+            <input class="border border-separate border-black" type="number" placeholder="0" name="amnt" required>
         </div>
         <div>
             <label for="date"><b>Verderfdatum</b></label>
-            <input type="date" name="date" required>
+            <input class="border border-separate border-black" type="date" name="date" required>
         </div>
         </div>
     <button class="text-black bg-white border border-black mt-5 hover:bg-green-500 hover:text-white " type="submit" class="btn">Toevoegen</button>
