@@ -2,9 +2,9 @@
     ob_start();
     require_once("db_login.php");
 
-    if (isset($_SESSION["usertype"])) {
-      header("Location: home.php");
-    }
+    // if (isset($_SESSION["usertype"])) {
+    //   header("Location: home.php");
+    // }
 ?>
 
 <head>
@@ -23,7 +23,7 @@
 <form method="post">
   Gebruikersnaam <input type="text" name="userName" value="" />
   Wachtwoord <input type="password" name="passWord" value="" />
-  <input type="submit" name="knop" value="Verstuur" />
+  <input type="submit" name="knop" value="Log in" />
 </form>
 </body>
 
@@ -39,7 +39,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
   if(password_verify($pass, $result['wachtwoord'])) {
     $_SESSION["username"] = $result['gebruikersnaam'];
     $_SESSION["usertype"] = $result['idusertype'];
-    header('Location: home.php');
+    header('Location: Voedselpakket.php');
   } else {
     echo "Invalid login.";
   }

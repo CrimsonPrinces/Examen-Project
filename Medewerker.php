@@ -27,14 +27,14 @@
      ?>
     </div>
 </div>
-
-<div class="bg-gray-200">
-<form method="post" class="flexbox bg-gray-200">
-        <table class="border-separate border-spacing-5 border">
+<h2 class="text-lg border-b border-black mb-3"> Medewerkers</h2>
+<div class="max-w-sm">
+<form method="post" class="flexbox bg-blue-200">
+        <table class="border-separate border-spacing-5 border text-white">
             <tr>                
-                <th>User ID</th>
-                <th>Gebruikersnaam</th>
-                <th>User Type</th>      
+                <th class=" border border-slate-600 bg-gray-500">User ID</th>
+                <th class=" border border-slate-600 bg-gray-500">Gebruikersnaam</th>
+                <th class=" border border-slate-600 bg-gray-500">User Type</th>      
             </tr>
                 <?php 
                     $sql = "SELECT iduser, gebruikersnaam, idusertype FROM user ORDER BY iduser";
@@ -44,10 +44,10 @@
                         $prevUser = null;
                         while ($row = $result->fetch(PDO::FETCH_ASSOC)) { 
                             if ($row["iduser"] != $prevUser) {
-                                echo "<tr>";
-                                echo "<td>" . $row["iduser"] . "</td>";
-                                echo "<td>" . $row["gebruikersnaam"] . "</td>"; 
-                                echo "<td>" . $row["idusertype"] . "</td>";
+                                echo "<tr class='border border-slate-600 text-black'>";
+                                echo "<td class='border border-slate-600 text-black'>" . $row["iduser"] . "</td>";
+                                echo "<td class='border border-slate-600 text-black'>" . $row["gebruikersnaam"] . "</td>"; 
+                                echo "<td class='border border-slate-600 text-black'>" . $row["idusertype"] . "</td>";
                                 echo "</tr>";
                             }
                             $prevUser = $row["iduser"];
@@ -57,33 +57,41 @@
         </table>
     </form>
 </div>
-<button class="open-button" onclick="openEnterForm()">Toevoegen</button>
-<button class="open-button" onclick="openDeleteForm()">Verwijderen</button>
+<button class="open-button text-black bg-white border border-black mt-5 mb-5 hover:bg-green-500 hover:text-white" onclick="openEnterForm()">Toevoegen</button>
+<button class="open-button text-black bg-white border border-black mt-5 mb-5 hover:bg-red-500 hover:text-white" onclick="openDeleteForm()">Verwijderen</button>
 
 <div class="form-popup" id="myEnterForm">
   <form class="form-container" method="post">
-    <h1>Medewerker toevoegen</h1>
-
-    <label for="user"><b>Gebruikersnaam</b></label>
-    <input type="text" placeholder="Gebruikersnaam toevoegen" name="user" required>
-    <label for="pass"><b>Wachtwoord</b></label>
-    <input type="password" placeholder="Wachtwoord toevoegen" name="pass" required>
-    <label for="repw"><b>Herhaal wachtwoord</b></label>
-    <input type="password" placeholder="Wachtwoord toevoegen" name="repw" required>
-    <label for="type"><b>Usertype</b></label>
-    <select name="type" id="type">
-        <option value="1">Admin</option>
-        <option value="2">Magazijnmedewerker</option>
-        <option value="3">Vrijwilliger</option>
-    </select>
-
-    <button type="submit" class="btn" name="add">Toevoegen</button>
-    <button type="button" class="btn cancel" onclick="closeEnterForm()">Sluiten</button>
+    <h2 class="text-lg border-b border-black mt-3 mb-3">Medewerker toevoegen</h2>
+    <div class="grid grid-cols-3">
+        <div>
+        <label for="user"><b>Gebruikersnaam</b></label>
+        <input class="border border-separate border-black" type="text" placeholder="Gebruikersnaam toevoegen" name="user" required>
+        </div>
+        <div>
+        <label for="pass"><b>Wachtwoord</b></label>
+        <input class="border border-separate border-black" type="password" placeholder="Wachtwoord toevoegen" name="pass" required>
+        </div>
+        <div>
+        <label for="repw"><b>Herhaal wachtwoord</b></label>
+        <input class="border border-separate border-black" type="password" placeholder="Wachtwoord toevoegen" name="repw" required>
+        </div>
+        <div>
+        <label for="type"><b>Usertype</b></label>
+        <select class="border border-separate border-black" name="type" id="type">
+            <option value="1">Admin</option>
+            <option value="2">Magazijnmedewerker</option>
+            <option value="3">Vrijwilliger</option>
+        </select>
+        </div>
+        </div>
+    <button class="text-black bg-white border border-black mt-5 mb-5 hover:bg-green-500 hover:text-white" type="submit" class="btn" name="add">Toevoegen</button>
+    <button class="text-black bg-white border border-black mt-5 mb-5 hover:bg-red-500 hover:text-white" type="button" class="btn cancel" onclick="closeEnterForm()">Sluiten</button>
   </form>
 </div>
 <div class="form-popup-delete" id="myDeleteForm">
   <form class="form-container-delete" method="post">
-    <h1>Medewerker verwijderen</h1>
+    <h2 class="text-lg border-b border-black mt-3 mb-3">Medewerker verwijderen</h2>
 
     <?php 
         $sql2 = "SELECT iduser, gebruikersnaam FROM user";
@@ -96,8 +104,8 @@
         print_r($result2->fetch(PDO::FETCH_ASSOC));
     ?>
 
-    <button type="submit" class="btn" name="delete">Verwijderen</button>
-    <button type="button" class="btn cancel delete" onclick="closeDeleteForm()">Sluiten</button>
+    <button class="text-black bg-white border border-black mt-5 mb-5 hover:bg-orange-300 hover:text-white" type="submit" class="btn" name="delete">Verwijderen</button>
+    <button class="text-black bg-white border border-black mt-5 mb-5 hover:bg-red-500 hover:text-white" type="button" class="btn cancel delete" onclick="closeDeleteForm()">Sluiten</button>
   </form>
 </div>
 <script>

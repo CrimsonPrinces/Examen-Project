@@ -3,7 +3,7 @@
     require_once("db_login.php");
 
     if ($_SESSION["usertype"] != 1) {
-        header("Location: home.php");
+        header("Location: Voedselpakket.php");
     } 
     if (!isset($_SESSION["usertype"])) {
         header("Location: index.php");
@@ -21,9 +21,8 @@
 </head>
 <body class="p-8">
     <div class="flex">
-<h2>Voedselbank Maaskantje</h2>
+    <h2>Voedselbank Maaskantje</h2>
     <div class="mb-20">
-    <a href='home.php' class= "mx-5"> Home </a>
     <?php require_once("Switches.php");
      ?>
     </div>
@@ -73,12 +72,12 @@
     </form>
 </div>
 
-<button class="open-button" onclick="openEnterForm()">Toevoegen</button>
-<button class="open-button" onclick="openDeleteForm()">Verwijderen</button>
+<button class="open-button text-black bg-white border border-black mt-5 mb-5 hover:bg-green-500 hover:text-white" onclick="openEnterForm()">Toevoegen</button>
+<button class="open-button text-black bg-white border border-black mt-5 mb-5 hover:bg-red-500 hover:text-white" onclick="openDeleteForm()">Verwijderen</button>
 
 <div class="form-popup" id="myEnterForm">
   <form class="form-container" method="post">
-    <h2>Klant toevoegen</h2>
+    <h2 class="text-lg border-b border-black mt-3 mb-3">Klant toevoegen</h2>
     <div class=" grid grid-cols-3">
         <div>
         <label for="naam"><b>Naam</b></label>
@@ -119,7 +118,7 @@
 </div>
 <div class="form-popup-delete" id="myDeleteForm">
   <form class="form-container-delete" method="post">
-    <h1>Klant verwijderen</h1>
+    <h2 class="text-lg border-b border-black mt-3 mb-3">Klant verwijderen</h2>
 
     <?php 
         $sql2 = "SELECT idklant, naam FROM klant";

@@ -21,7 +21,6 @@
 
 <h2>Voedselbank Maaskantje</h2>
     <div class="mb-20">
-    <a href='home.php' class= "mx-5"> Home </a>
     <?php require_once("Switches.php");
      ?>
     </div>
@@ -106,7 +105,7 @@ function openWens() {
 
 <div class="form-popup" id="myEnterForm">
   <form class="form-container" method="post">
-    <h1>Voedselpakket maken</h1>
+    <h2 class="text-lg border-b border-black mt-3 mb-3">Voedselpakket maken</h2>
 
     <label for="cust"><b>Klant</b></label>
     <select name="cust" id="cust">
