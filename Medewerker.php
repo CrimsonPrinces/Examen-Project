@@ -44,7 +44,7 @@
                         $prevUser = null;
                         while ($row = $result->fetch(PDO::FETCH_ASSOC)) { 
                             if ($row["iduser"] != $prevUser) {
-                                echo "<tr class='border border-slate-600 text-black'>";
+                                echo "<tr>";
                                 echo "<td class='border border-slate-600 text-black'>" . $row["iduser"] . "</td>";
                                 echo "<td class='border border-slate-600 text-black'>" . $row["gebruikersnaam"] . "</td>"; 
                                 echo "<td class='border border-slate-600 text-black'>" . $row["idusertype"] . "</td>";
