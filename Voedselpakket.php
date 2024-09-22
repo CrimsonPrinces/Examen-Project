@@ -102,7 +102,7 @@ function openWens() {
     </form>
 </div>
 <button class="open-button bg-green-500 text-white border border-black hover:bg-green-900 mt-5" onclick="openEnterForm()">Toevoegen</button>
-
+<button class="open-button bg-yellow-300 text-white border border-black hover:bg-yellow-500 mt-5" onclick="OpenUitgeef()">Uitgeven</button>
 <div class="form-popup" id="myEnterForm">
   <form class="form-container" method="post">
     <h2 class="text-lg border-b border-black mt-3 mb-3">Voedselpakket maken</h2>
@@ -138,6 +138,31 @@ function openWens() {
     <button class="text-black bg-white border border-black mt-5 hover:bg-red-500 hover:text-white " type="button" class="btn cancel" onclick="closeEnterForm()">Sluiten</button>
   </form>
 </div>
+<!--<div class="form-popup" id="Uitgeef">
+<form class="form-container" method="post">
+    <h2 class="text-lg border-b border-black mt-3 mb-3">Voedselpakket Uitgeven</h2>
+
+    <label for="cust"><b>Voedselpakket</b></label>
+    <select name="cust" id="cust">
+    <!-- <?php /*
+    
+    $sqlUit = "SELECT idvoedselpakket, samensteldatum, idklant FROM voedselpakket WHERE uitgeefdatum == null";
+    $show = $conn->query($sqlUit);
+
+        if($show){
+            $pakket = null;
+            while($row = $show->fetch(PDO::FETCH_ASSOC)) {
+                if($row["idvoedselpakket"] != $pakket){
+                    echo "$row['idvoedselpakket']"
+                }
+            }
+        } */
+    ?> 
+    </select>
+    <button class="text-black bg-white border border-black mt-5 hover:bg-green-500 hover:text-white " type="submit" class="btn" name="add">Toevoegen</button>
+    <button class="text-black bg-white border border-black mt-5 hover:bg-red-500 hover:text-white " type="button" class="btn cancel" onclick="closeEnterForm()">Sluiten</button>
+  </form> mijn attempt om uitgeef datum toetevoegen krijg er een beetje hoofdpijnvan ga hier maandag mee veder 
+</div> -->
 <script>
 function openEnterForm() {
   document.getElementById("myEnterForm").style.display = "block";
