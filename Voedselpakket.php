@@ -103,7 +103,7 @@ function openWens() {
 </div>
 <button class="open-button bg-green-500 text-white border border-black hover:bg-green-900 mt-5" onclick="openEnterForm()">Toevoegen</button>
 <button class="open-button bg-yellow-300 text-white border border-black hover:bg-yellow-500 mt-5" onclick="openUitgeef()">Uitgeven</button>
-<!-- toevoegen damian -->
+<!-- toevoegen damian --> 
 <div class="form-popup" id="myEnterForm">
   <form class="form-container" method="post">
     <h2 class="text-lg border-b border-black mt-3 mb-3">Voedselpakket maken</h2>
@@ -149,36 +149,29 @@ function openEnterForm() {
 function closeEnterForm() {
   document.getElementById("myEnterForm").style.display = "none";
 }
-
-closeEnterForm();
 </script>
 <!-- jeff -->
-<!-- <div class="form-popup-uitgeef" id="Uitgeef"> 
+<div class="form-popup-uitgeef" id="Uitgeef"> 
 <form class="form-container-uitgeef" method="post">
     <h2 class="text-lg border-b border-black mt-3 mb-3">Voedselpakket Uitgeven</h2>
 
     <label for="Uitsend"><b>Voedselpakket</b></label>
-    <select name="Uitsend" id="Uitsend">
-     <?php
+    <?php
     
-    // $sqlUit = "SELECT idvoedselpakket, samensteldatum, idklant FROM voedselpakket WHERE uitgeefdatum == null";
-    // $show = $cons->query($sqlUit);
-    // echo $show;
-    //     if($show){
-    //         $pakket = null;
-    //         while($row = $show->fetch(PDO::FETCH_ASSOC)) {
-    //             if($row["idvoedselpakket"] != $pakket){
-    //                 echo "<input type='checkbox' name='idvoedselpakket[]' value='".$row["idvoedselpakket"]."'>".$row["idklant"]."<br>";
-    //             }
-    //         }
-    //     }
+    $sqlUit = "SELECT idvoedselpakket, samensteldatum, idklant FROM voedselpakket WHERE uitgiftedatum IS NULL";
+    $show = $conn->query($sqlUit);
+        if($show){
+            while($row = $show->fetch(PDO::FETCH_ASSOC)) {
+                echo "<input type='checkbox' name='idvoedselpakket[]' value='".$row["idvoedselpakket"]."'> ". $row["idklant"] ."<br>";
+            }
+        }
     ?> 
-    </select>
     <button class="text-black bg-white border border-black mt-5 hover:bg-green-500 hover:text-white " type="submit" class="btn" name="add">Toevoegen</button>
     <button class="text-black bg-white border border-black mt-5 hover:bg-red-500 hover:text-white " type="button" class="btn cancel" onclick="closeUitgeef()">Sluiten</button>
-  </form> mijn attempt om uitgeef datum toetevoegen krijg er een beetje hoofdpijnvan ga hier maandag mee veder 
-</div> -->
+  </form>
+</div>
 <script>
+closeEnterForm();
 function openUitgeef(){
     document.getElementById("Uitgeef").style.display = "block";
 }
@@ -187,7 +180,6 @@ function closeUitgeef(){
 }
 closeUitgeef();
 </script>
-
 <?php
     if(isset($_POST['add'])) {
         if($_SERVER["REQUEST_METHOD"] == "POST") {
