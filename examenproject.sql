@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Sep 26, 2024 at 01:35 PM
+-- Generation Time: Sep 26, 2024 at 04:30 PM
 -- Server version: 8.2.0
 -- PHP Version: 8.2.13
 
@@ -30,9 +30,9 @@ SET time_zone = "+00:00";
 DROP TABLE IF EXISTS `categorie`;
 CREATE TABLE IF NOT EXISTS `categorie` (
   `idcategorie` int NOT NULL AUTO_INCREMENT,
-  `beschrijving` varchar(60) NOT NULL,
+  `beschrijving` varchar(60) DEFAULT NULL,
   PRIMARY KEY (`idcategorie`)
-) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `categorie`
@@ -47,7 +47,7 @@ INSERT INTO `categorie` (`idcategorie`, `beschrijving`) VALUES
 (6, 'Pasta, rijst en wereldkeuken'),
 (7, 'Soepen, sauzen, kruiden en olie'),
 (8, 'Snoep, koek, chips en chocolade'),
-(9, 'Baby, verzorging en hygienë');
+(9, 'Baby, verzorging en hygiene');
 
 -- --------------------------------------------------------
 
