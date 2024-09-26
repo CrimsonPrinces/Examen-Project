@@ -147,17 +147,19 @@ function closeEnterForm() {
     <h2 class="text-lg border-b border-black mt-3 mb-3">Voedselpakket Uitgeven</h2>
 
     <label for="Uitsend"><b>Voedselpakket</b></label>
+    <Select name="Uitsend" id="Uitsend">
     <?php
     
     $sqlUit = "SELECT idvoedselpakket, samensteldatum, idklant FROM voedselpakket WHERE uitgiftedatum IS NULL";
     $show = $conn->query($sqlUit);
         if($show){
             while($row = $show->fetch(PDO::FETCH_ASSOC)) {
-                echo "<input type='checkbox' name='idvoedselpakket[]' value='".$row["idvoedselpakket"]."'> ". $row["idklant"] ."<br>";
+                echo"<option value='". $row["idvoedselpakket"]."'> ".$row["idvoedselpakket"]."</option>";
             }
         }
     ?> 
-    <button class="text-black bg-white border border-black mt-5 hover:bg-green-500 hover:text-white " type="submit" class="btn" name="add">Toevoegen</button>
+    </Select>
+    <button class="text-black bg-white border border-black mt-5 hover:bg-green-500 hover:text-white " type="submit" class="btn" name="uitGeef">Uitgeven</button>
     <button class="text-black bg-white border border-black mt-5 hover:bg-red-500 hover:text-white " type="button" class="btn cancel" onclick="closeUitgeef()">Sluiten</button>
   </form>
 </div>
@@ -200,6 +202,16 @@ closeUitgeef();
             }
             echo "Nieuw voedselpakket toegevoegd.";
             header("Refresh: 3; url=Voedselpakket.php");
+        }
+    }
+
+    if(isset($_POST['uitGeef'])){
+        if($_SERVER["REQUEST_METHOD"]=="POST"){
+            $idpakket = $_POST["Uitsend"];
+            $SQLuitgeefpakket = $conn->prepare("UPDATE voedselpakket SET uitgiftedatum = ? where idvoedselpakket = ?");
+
+            $uitdatum = date('Y/m/d');
+            $SQLuitgeefpakket->execute([$uitdatum,$idpakket]);
         }
     }
 ?>
