@@ -44,13 +44,13 @@
                     <th class="border border-slate-600 bg-gray-500 text-base"><a class="text-white" href="Voorraad.php?sort=verderfdatum">Verderfdatum</a></th>            
                 </tr>
                 <?php
-                    $sort = array('streepjescode', 'productnaam', 'categorie', 'aantal', 'verderfdatum');
+                    $sort = array('streepjescode', 'productnaam', 'idcategorie', 'aantal', 'verderfdatum');
                     $order = 'streepjescode';
                     if (isset($_GET['sort']) && in_array($_GET['sort'], $sort)) {
                         $order = $_GET['sort'];
                     }
 
-                    $sql = 'SELECT streepjescode, productnaam, categorie, aantal, verderfdatum FROM product ORDER BY '.$order;
+                    $sql = 'SELECT streepjescode, productnaam, beschrijving, aantal, verderfdatum FROM product JOIN categorie ON product.idcategorie = categorie.idcategorie ORDER BY '.$order;
                     $result = $conn->query($sql);
                 ?>
             </thead>
@@ -63,7 +63,7 @@
                                 echo "<tr>";
                                 echo "<td class='border border-slate-600 text-black'>" . $row["streepjescode"] . "</td>";
                                 echo "<td class='border border-slate-600 text-black'>" . $row["productnaam"] . "</td>"; 
-                                echo "<td class='border border-slate-600 text-black'>" . $row["categorie"] . "</td>"; 
+                                echo "<td class='border border-slate-600 text-black'>" . $row["beschrijving"] . "</td>"; 
                                 echo "<td class='border border-slate-600 text-black'>" . $row["aantal"] . "</td>";
                                 echo "<td class='border border-slate-600 text-black'>" . $row["verderfdatum"] . "</td>";
                                 echo "</tr>";
@@ -92,15 +92,18 @@
         </div>
         <div>
             <label for="ctgr"><b>Categorie</b></label>
-            <!-- <select>
-                <option value="Aardappels, groente, fruit">Aardappels, groente, fruit</option>
-                <option value="Kaas, vleeswaren">Kaas, vleeswaren</option>
-                <option value="Zuivel, plantaardig en eieren">Zuivel, plantaardig en eieren</option>
-                <option value="Bakkerij en banket">Bakkerij en banket</option>
-                <option value="Frisdrank, sappen, koffie en thee">Frisdrank, sappen, koffie en thee</option>
-                <option value="Pasta, rijst en wereldkeuken">Pasta, rijst en wereldkeuken</option>
-        </select> -->
-            <input class="border border-separate border-black" type="text" placeholder="Categorie toevoegen" name="ctgr" required> 
+            <select name="ctgr" id="ctgr">
+                <?php
+                    $sqlCate = "SELECT idcategorie, beschrijving FROM categorie";
+                    $resCate = $conn->query($sqlCate);
+                    if ($resCate) {
+                    while ($row = $resCate->fetch(PDO::FETCH_ASSOC)) {
+                        echo "<option value='" . $row["idcategorie"] . "'>" . $row["beschrijving"] . "</option>";
+                        }
+                    } 
+                ?>
+            </select>
+            <!--<input class="border border-separate border-black" type="text" placeholder="Categorie toevoegen" name="ctgr" required> -->
         </div>
         <div>
             <label for="amnt"><b>Aantal product</b></label>
@@ -129,7 +132,7 @@ closeForm();
 
 <?php
     if($_SERVER["REQUEST_METHOD"] == "POST") {
-        $sql = $conn->prepare("INSERT INTO product(streepjescode, productnaam, categorie, aantal, verderfdatum) VALUES(?, ?, ?, ?, ?)");
+        $sql = $conn->prepare("INSERT INTO product(streepjescode, productnaam, idcategorie, aantal, verderfdatum) VALUES(?, ?, ?, ?, ?)");
         
         $prdctCode = $_POST['stcd'];
         $prdctNaam = $_POST['prnm'];

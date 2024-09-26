@@ -29,46 +29,37 @@
 <div>
     <form class='form-container' method='post'>
         <select name='klanten' id='klanten'>
-<?php 
-    $sqlKlantDisplay = "SELECT idklant, naam FROM klant";
-    $resKlantDisplay = $conn->query($sqlKlantDisplay);
-    
-    
-    while ($row = $resKlantDisplay->fetch(PDO::FETCH_ASSOC)){
-        echo "<option class='border border-black hover:border-black' value='" . $row["idklant"] . "'>" . $row["naam"] . "</option>";
-    }
-?>
+        <?php 
+            $sqlKlantDisplay = "SELECT idklant, naam, wensen FROM klant";
+            $resKlantDisplay = $conn->query($sqlKlantDisplay);
+            
+            while ($row = $resKlantDisplay->fetch(PDO::FETCH_ASSOC)){
+                echo "<option class='border border-black hover:border-black' value='" . $row["idklant"] . "' name='" . $row["idklant"] . "'>" . $row["naam"] . "</option>";
+            }
+            ?>
         </select>
-        <button type='submit' class='btn' onclick='openWens()'>Deze klant selecteren</button>
+        <button type='submit' class='btn' onclick='openWens()' name="disWens">Deze klant selecteren</button>
     </form>
-
 <!--Alles hier onder werkt niet en ik haat alles in het leven.-->
-<!-- <script>
-function openWens() {
-  document.getElementById("wensForm").style.display = "block";
-}
-
-</script> -->
-<?php 
-    /*$askedKlantID = $_POST["klanten"];
-    $askedKlantWens = $conn->prepare("SELECT wens FROM klant WHERE idklant = ?");
-    
-    $askedKlantWens->execute([$askedKlantID]);
-    while ($row = $askedKlantWens->fetch(PDO::FETCH_ASSOC)) {
-        echo "<form id='wensForm'>";
-        echo "<p>" . $row["wens"] . "</p>";
-        echo "</form>";
-    }
-
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        echo "<form id='wensForm'>";
-        echo "<table>";
-        echo "<tr>" . $row["naam"] . "</tr>";
-        echo "<tr>" . $row["wensen"] . "</tr>";
-        echo "</table>";
-        echo "</form>";
-    }*/
-?>
+</div>
+<div>
+    <table id="wensForm">
+        <?php
+            if (isset($_POST["disWens"])) {
+                if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                    $sqlWensID = $_POST["klanten"];
+                    $sqlWensDisplay = "SELECT idklant, naam, wensen FROM klant WHERE idklant = $sqlWensID";
+                    $resWensDisplay = $conn->query($sqlWensDisplay);
+                    if ($resWensDisplay) { 
+                        while ($row = $resWensDisplay->fetch(PDO::FETCH_ASSOC)) { 
+                            echo "<td value='" . $row["idklant"] . "'>Wens van " . $row["naam"] . ": " . $row["wensen"] . "</td>";
+                        } 
+                    }
+                    print_r($resWensDisplay->fetch(PDO::FETCH_ASSOC));
+                }
+            }
+        ?>
+    </table>
 </div>
 <div class="max-w-xl">
     <form method="post" class="flexbox bg-blue-200 text-white">
@@ -194,8 +185,8 @@ closeUitgeef();
 
             foreach ($voedProducten as $voedProduct) {
                 $voedAantal = $_POST[$voedProduct];
-                $sqlVoedselpakketAandProduct = $conn->prepare("INSERT INTO voedselpakket_has_product(idvoedselpakket, idklant, streepjescode, aantal) VALUES(?, ?, ?, ?)");
-                $sqlVoedselpakketAandProduct->execute([$last_id, $voedKlantID, $voedProduct, $voedAantal]);
+                $sqlVoedselpakketAndProduct = $conn->prepare("INSERT INTO voedselpakket_has_product(idvoedselpakket, idklant, streepjescode, aantal) VALUES(?, ?, ?, ?)");
+                $sqlVoedselpakketAndProduct->execute([$last_id, $voedKlantID, $voedProduct, $voedAantal]);
 
                 $sqlProduct = "SELECT streepjescode, aantal FROM product WHERE streepjescode = $voedProduct";
                 $resProduct = $conn->query($sqlProduct);
