@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Sep 21, 2024 at 10:40 AM
+-- Generation Time: Sep 26, 2024 at 01:35 PM
 -- Server version: 8.2.0
 -- PHP Version: 8.2.13
 
@@ -20,6 +20,34 @@ SET time_zone = "+00:00";
 --
 -- Database: `examenproject`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `categorie`
+--
+
+DROP TABLE IF EXISTS `categorie`;
+CREATE TABLE IF NOT EXISTS `categorie` (
+  `idcategorie` int NOT NULL AUTO_INCREMENT,
+  `beschrijving` varchar(60) NOT NULL,
+  PRIMARY KEY (`idcategorie`)
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `categorie`
+--
+
+INSERT INTO `categorie` (`idcategorie`, `beschrijving`) VALUES
+(1, 'Aardappelen, groente, fruit'),
+(2, 'Kaas, vleeswaren'),
+(3, 'Zuivel, plantaardig en eieren'),
+(4, 'Bakkerij en banket'),
+(5, 'Frisdrank, sappen, koffie en thee'),
+(6, 'Pasta, rijst en wereldkeuken'),
+(7, 'Soepen, sauzen, kruiden en olie'),
+(8, 'Snoep, koek, chips en chocolade'),
+(9, 'Baby, verzorging en hygienë');
 
 -- --------------------------------------------------------
 
@@ -130,22 +158,24 @@ DROP TABLE IF EXISTS `product`;
 CREATE TABLE IF NOT EXISTS `product` (
   `streepjescode` bigint NOT NULL,
   `productnaam` varchar(100) NOT NULL,
-  `categorie` varchar(70) NOT NULL,
   `aantal` int NOT NULL,
   `verderfdatum` date DEFAULT NULL,
-  PRIMARY KEY (`streepjescode`)
+  `idcategorie` int NOT NULL,
+  PRIMARY KEY (`streepjescode`),
+  KEY `idcategorie` (`idcategorie`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `product`
 --
 
-INSERT INTO `product` (`streepjescode`, `productnaam`, `categorie`, `aantal`, `verderfdatum`) VALUES
-(5304826896055, 'product1', 'Aardappelen, groente, fruit', 1, '2025-09-11'),
-(6963736455087, 'product2', 'Kaas, vleeswaren', 3, '2024-12-31'),
-(5907127347355, 'nietproduct3', 'Bakkerij en banket', 3, '1996-12-05'),
-(2286399857443, 'Borgar', 'Zuivel, plantaardig en eieren', 45, '2024-09-19'),
-(2404990412945, 'Smackaroo', 'Snoep, koek, chips en chocolade', 24, '4048-12-31');
+INSERT INTO `product` (`streepjescode`, `productnaam`, `aantal`, `verderfdatum`, `idcategorie`) VALUES
+(5304826896055, 'product1', 1, '2025-09-11', 1),
+(6963736455087, 'product2', 3, '2024-12-31', 2),
+(5907127347355, 'nietproduct3', 3, '1996-12-05', 4),
+(2286399857443, 'Borgar', 44, '2024-09-19', 3),
+(2404990412945, 'Smackaroo', 24, '4048-12-31', 8),
+(1234567890123, 'Nieuw Product', 1, '1996-06-26', 6);
 
 -- --------------------------------------------------------
 
@@ -162,7 +192,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`iduser`),
   UNIQUE KEY `gebruikersnaam` (`gebruikersnaam`),
   KEY `idusertype` (`idusertype`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `user`
@@ -209,13 +239,14 @@ CREATE TABLE IF NOT EXISTS `voedselpakket` (
   `idklant` int NOT NULL,
   PRIMARY KEY (`idvoedselpakket`),
   KEY `idklant` (`idklant`)
-) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `voedselpakket`
 --
 
 INSERT INTO `voedselpakket` (`idvoedselpakket`, `samensteldatum`, `uitgiftedatum`, `idklant`) VALUES
+(22, '2024-09-26', NULL, 2),
 (11, '2024-09-21', NULL, 2),
 (12, '2024-09-21', NULL, 1);
 
@@ -243,6 +274,7 @@ CREATE TABLE IF NOT EXISTS `voedselpakket_has_product` (
 INSERT INTO `voedselpakket_has_product` (`idvoedselpakket`, `idklant`, `streepjescode`, `aantal`) VALUES
 (1, 1, 5304826896055, 1),
 (10, 2, 0, 1),
+(22, 2, 2286399857443, 1),
 (20, 14, 2286399857443, 5),
 (21, 3, 6963736455087, 2);
 COMMIT;
