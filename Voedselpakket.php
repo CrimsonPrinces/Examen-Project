@@ -38,7 +38,7 @@
             }
             ?>
         </select>
-        <button type='submit' class='btn' onclick='openWens()' name="disWens">Deze klant selecteren</button>
+        <button class="hover:bg-blue-400 hover:text-white text-black mb-5" type='submit' class='btn' onclick='openWens()' name="disWens">Deze klant selecteren</button>
     </form>
 <!--Alles hier onder werkt niet en ik haat alles in het leven.-->
 </div>
