@@ -159,6 +159,7 @@ function closeEnterForm() {
         }
     ?> 
     </Select>
+    <br>
     <button class="text-black bg-white border border-black mt-5 hover:bg-green-500 hover:text-white " type="submit" class="btn" name="uitGeef">Uitgeven</button>
     <button class="text-black bg-white border border-black mt-5 hover:bg-red-500 hover:text-white " type="button" class="btn cancel" onclick="closeUitgeef()">Sluiten</button>
   </form>
@@ -213,6 +214,9 @@ closeUitgeef();
             $uitdatum = date('Y/m/d');
             $SQLuitgeefpakket->execute([$uitdatum,$idpakket]);
         }
+        
+        echo"Voedselpakket is uitgegeven.";
+        header("Refresh: 3; url=Voedselpakket.php");
     }
 ?>
 </body>
