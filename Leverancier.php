@@ -125,22 +125,22 @@
 <div class="form-popup-lever" id="Leverform">
     <form class="form-container-levering" method="post">
     <label for="levering"><b>Nieuwe Leverings Datum</b></label>
-    <select name="Leverancier" id="Leverancier">
+    <select name="leverSel" id="leverSel">
         <?php
         $sqlLevering ="SELECT idleverancier, bedrijfsnaam FROM leverancier";
         $levering = $conn->query($sqlLevering);
         if($levering){
             while($row = $levering->fetch(PDO::FETCH_ASSOC)){
-                echo"<option value='".$row["idleverancier"]."'> ".$row["bedrijfsnaam"]."</option>";
+                echo "<option value='".$row["idleverancier"]."'> ".$row["bedrijfsnaam"]."</option>";
             }
         }
         ?>
-        <label for="nextdells"><b>Volgende levering</b></label>
-        <input class="border border-separate border-black" type="datetime-local" name="nextdells" required>
     </select>
+    <label for="nextdells"><b>Volgende levering</b></label>
+    <input class="border border-separate border-black" type="datetime-local" name="nextdells" required>
     <br>
     <button class="text-black bg-white border border-black mt-5 hover:bg-orange-300 hover:text-white " type="submit" class="btn" name="Change">Verander</button>
-    <button class="text-black bg-white border border-black mt-5 hover:bg-red-500 hover:text-white " type="button" class="btn cancel delete" onclick="closeDeleteForm()">Sluiten</button>
+    <button class="text-black bg-white border border-black mt-5 hover:bg-red-500 hover:text-white " type="button" class="btn cancel delete" onclick="closeLeverform()">Sluiten</button>
     </form>
 </div>
 <script>
@@ -174,42 +174,46 @@ closeLeverform();
 </script>
 
 <?php
-    if(isset($_POST['add'])) {
-        if($_SERVER["REQUEST_METHOD"] == "POST") {
-            $sql = $conn->prepare("INSERT INTO leverancier(bedrijfsnaam, adres, naamcontact, telefoonnummer, emailadres, volgendelevering) VALUES(?, ?, ?, ?, ?, ?)");
+    if($_SERVER["REQUEST_METHOD"] == "POST") {
+        switch (true) {
+            case isset($_POST['add']):
+                $sql = $conn->prepare("INSERT INTO leverancier(bedrijfsnaam, adres, naamcontact, telefoonnummer, emailadres, volgendelevering) VALUES(?, ?, ?, ?, ?, ?)");
             
-            $leverNaam = $_POST['leve'];
-            $leverAdres = $_POST['adres'];
-            $leverCont = $_POST['cont'];
-            $leverTele = $_POST['tel'];
-            $leverEmail = $_POST['email'];
-            $leverDeli = $_POST['nextdel'];
-            
-            $sql->execute([$leverNaam, $leverAdres, $leverCont, $leverTele, $leverEmail, $leverDeli]);
-            echo "Nieuwe leverancier toegevoegd.";
-
-            header("Refresh: 3; url=Leverancier.php");
-        }
-    } else if(isset($_POST['delete'])) {
-        if($_SERVER["REQUEST_METHOD"] == "POST") {
-            $leverDeletes = $_POST['leveranciers'];
-
-            foreach ($leverDeletes as $leverDelete) {
-                $sql = $conn->prepare("DELETE FROM leverancier WHERE idleverancier = ?");
-                $sql->execute([$leverDelete]);
-                echo "Leverancier verwijderd.";
-            }
-            header("Refresh: 3; url=Leverancier.php");
-        }else if (isset($_POST['Change'])){
-            if($_SERVER["REQUEST_METHOD"]=="POST"){
-                $leverchange = $conn->prepare("UPDATE leverancier SET volgendelevering = ? WHERE idleverancier = ?");
-                $newlever = $_POST['nextdells'];
-                $idlever = $_POST['Leverancier'];
-                $leverchange->execute([$newlever, $idlever]);
-
-            echo"Niewe Leverings Datum Genoteerd.";
-            header("Refresh:3; url=Leverancier.php");
-            }
+                $leverNaam = $_POST['leve'];
+                $leverAdres = $_POST['adres'];
+                $leverCont = $_POST['cont'];
+                $leverTele = $_POST['tel'];
+                $leverEmail = $_POST['email'];
+                $leverDeli = $_POST['nextdel'];
+                
+                $sql->execute([$leverNaam, $leverAdres, $leverCont, $leverTele, $leverEmail, $leverDeli]);
+                echo "Nieuwe leverancier toegevoegd.";
+    
+                header("Refresh: 3; url=Leverancier.php");
+                break;
+            case isset($_POST['delete']): 
+                if($_SERVER["REQUEST_METHOD"] == "POST") {
+                    $leverDeletes = $_POST['leveranciers'];
+        
+                    foreach ($leverDeletes as $leverDelete) {
+                        $sql = $conn->prepare("DELETE FROM leverancier WHERE idleverancier = ?");
+                        $sql->execute([$leverDelete]);
+                        echo "Leverancier verwijderd.";
+                    }
+                    header("Refresh: 3; url=Leverancier.php");
+                } 
+                break;
+            case isset($_POST['Change']):
+                if($_SERVER["REQUEST_METHOD"]=="POST"){
+                    $newlever = $_POST['nextdells'];
+                    $idlever = $_POST['leverSel'];
+                    $leverchange = $conn->prepare("UPDATE leverancier SET volgendelevering = ? WHERE idleverancier = ?");
+                    $leverchange->execute([$newlever, $idlever]);
+        
+                echo "Nieuwe Leverings Datum Genoteerd.";
+                header("Refresh:3; url=Leverancier.php");
+                }
+                break;
         }
     }
 ?>

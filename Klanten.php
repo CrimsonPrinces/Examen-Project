@@ -74,6 +74,7 @@
 
 <button class="open-button text-black bg-white border border-black mt-5 mb-5 hover:bg-green-500 hover:text-white" onclick="openEnterForm()">Toevoegen</button>
 <button class="open-button text-black bg-white border border-black mt-5 mb-5 hover:bg-red-500 hover:text-white" onclick="openDeleteForm()">Verwijderen</button>
+<button class="open-button text-black bg-white border border-black mt-5 mb-5 hover:bg-red-500 hover:text-white" onclick="openChangeForm()">Wijzigen</button>
 
 <div class="form-popup" id="myEnterForm">
   <form class="form-container" method="post">
@@ -128,64 +129,171 @@
                 echo "<input type='checkbox' name='klanten[]' value='" . $row["idklant"] . "'> " . $row["naam"] . "<br>";
             } 
         }
-        print_r($result2->fetch(PDO::FETCH_ASSOC));
     ?>
 
     <button class="text-black bg-white border border-black mt-5 hover:bg-orange-300 hover:text-white " type="submit" class="btn" name="delete">Verwijderen</button>
     <button class ="text-black bg-white border border-black mt-5 hover:bg-red-500 hover:text-white " type="button" class="btn cancel delete" onclick="closeDeleteForm()">Sluiten</button>
   </form>
 </div>
+<?php
+    if (isset($_POST["disWens"])) {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $sqlWijzID = $_POST["wijzKlant"];
+
+            $sqlWijzDisplay = "SELECT idklant, naam, adres, telefoonnummer, email, aantalvolwassen, aantalkind, aantalbaby, wensen FROM klant WHERE idklant = ?";
+            $resWijzDisplay = $conn->prepare($sqlWijzDisplay);
+            
+            if ($resWijzDisplay->execute([$sqlWijzID])) {
+                $rowWijzDisplay = $resWijzDisplay->fetch(PDO::FETCH_ASSOC);
+            }
+        }
+    }
+?>
+<div class="form-popup" id="myChangeForm">
+    <div>
+        <form class='form-container' method='post'>
+            <label for="wijzKlant"><b>Klant selecteren!</b></label>
+            <select name='wijzKlant' id='wijzKlant'>
+            <?php
+                $sqlKlantWijzig = "SELECT idklant, naam FROM klant";
+                $resKlantWijzig = $conn->query($sqlKlantWijzig);
+                
+                while ($row = $resKlantWijzig->fetch(PDO::FETCH_ASSOC)){
+                    echo "<option class='border border-black hover:border-black' value='" . $row["idklant"] . "' name='" . $row["idklant"] . "'>" . $row["naam"] . "</option>";
+                }
+                ?>
+            </select>
+            <button class="hover:bg-blue-400 hover:text-white text-black mb-5" type='submit' class='btn' name="disWens">Deze klant selecteren</button>
+        </form>
+    </div>
+  <form class="form-container-change" method="post">
+    <h2 class="text-lg border-b border-black mt-3 mb-3">Klant wijzigen</h2>
+    <div class=" grid grid-cols-3">
+        <div>
+        <label for="wijzNaam"><b>Naam</b></label>
+        <input class="border border-separate border-black" type="text" placeholder="Naam toevoegen" name="wijzNaam" value="<?= isset($rowWijzDisplay['naam']) ? $rowWijzDisplay['naam'] : '' ?>" required>
+        </div>
+        <div>
+        <label for="wijzAdres"><b>Adres</b></label>
+        <input class="border border-separate border-black" type="text" placeholder="Adres toevoegen" name="wijzAdres" value="<?= isset($rowWijzDisplay['adres']) ? $rowWijzDisplay['adres'] : '' ?>" required>
+        </div>
+        <div>
+        <label for="wijzTel"><b>Telefoonnummer</b></label>
+        <input class="border border-separate border-black" type="number" placeholder="Telefoonnummer toevoegen" name="wijzTel" value="<?= isset($rowWijzDisplay['telefoonnummer']) ? $rowWijzDisplay['telefoonnummer'] : '' ?>" required>
+        </div>
+        <div>
+        <label for="wijzEmail"><b>Emailadres</b></label>
+        <input class="border border-separate border-black" type="text" placeholder="Email toevoegen" name="wijzEmail" value="<?= isset($rowWijzDisplay['email']) ? $rowWijzDisplay['email'] : '' ?>" required>
+        </div>
+        <div>
+        <label for="wijzVolwas"><b>Aantal volwassenen</b></label>
+        <input class="border border-separate border-black" type="number" placeholder="0" name="wijzVolwas" value="<?= isset($rowWijzDisplay['aantalvolwassen']) ? $rowWijzDisplay['aantalvolwassen'] : '' ?>" required>
+        </div>
+        <div>
+        <label for="wijzKind"><b>Aantal kinderen</b></label>
+        <input class="border border-separate border-black" type="number" placeholder="0" name="wijzKind" value="<?= isset($rowWijzDisplay['aantalkind']) ? $rowWijzDisplay['aantalkind'] : '' ?>">
+        </div>
+        <div>
+        <label for="wijzBaby"><b>Aantal baby's</b></label>
+        <input class="border border-separate border-black" type="number" placeholder="0" name="wijzBaby" value="<?= isset($rowWijzDisplay['aantalbaby']) ? $rowWijzDisplay['aantalbaby'] : '' ?>">
+        </div>
+        <div>
+        <label for="wijzWens"><b>Wensen</b></label>
+        <input class="border border-separate border-black" type="text" placeholder="Wensen/allergiën toevoegen" name="wijzWens" value="<?= isset($rowWijzDisplay['wensen']) ? $rowWijzDisplay['wensen'] : '' ?>">
+        </div>
+        <div>
+        <label for="wijzId"></label>
+        <input hidden="text" name="wijzId" value="<?= isset($rowWijzDisplay['idklant']) ? $rowWijzDisplay['idklant'] : '' ?>" required>
+        </div>
+    </div>
+    <button class="text-black bg-white border border-black mt-5 hover:bg-green-500 hover:text-white " type="submit" class="btn" name="change">Wijzigen</button>
+    <button class ="text-black bg-white border border-black mt-5 hover:bg-red-500 hover:text-white " type="button" class="btn cancel" onclick="closeChangeForm()">Sluiten</button>
+  </form>
+</div>
 <script>
-function openEnterForm() {
-  document.getElementById("myEnterForm").style.display = "block";
-}
+    function openEnterForm() {
+    document.getElementById("myEnterForm").style.display = "block";
+    }
 
-function closeEnterForm() {
-  document.getElementById("myEnterForm").style.display = "none";
-}
+    function closeEnterForm() {
+    document.getElementById("myEnterForm").style.display = "none";
+    }
 
-closeEnterForm();
+    closeEnterForm();
 
-function openDeleteForm() {
-  document.getElementById("myDeleteForm").style.display = "block";
-}
+    function openDeleteForm() {
+    document.getElementById("myDeleteForm").style.display = "block";
+    }
 
-function closeDeleteForm() {
-  document.getElementById("myDeleteForm").style.display = "none";
-}
+    function closeDeleteForm() {
+    document.getElementById("myDeleteForm").style.display = "none";
+    }
 
-closeDeleteForm();
+    closeDeleteForm();
+
+    function openChangeForm() {
+    document.getElementById("myChangeForm").style.display = "block";
+    }
+
+    function closeChangeForm() {
+    document.getElementById("myChangeForm").style.display = "none";
+    }
+
+    closeChangeForm();
 </script>
 
 <?php
-    if(isset($_POST['add'])){
-        if($_SERVER["REQUEST_METHOD"] == "POST") {
-            $sql = $conn->prepare("INSERT INTO klant(naam, adres, telefoonnummer, email, aantalvolwassen, aantalkind, aantalbaby, wensen) VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
-            
-            $klantNaam = $_POST['naam'];
-            $klantAdres = $_POST['adres'];
-            $klantTel = $_POST['tel'];
-            $klantEmail = $_POST['email'];
-            $klantVolwas = $_POST['volwas'];
-            $klantKind = $_POST['kind'];
-            $klantBaby = $_POST['baby'];
-            $klantWens = $_POST['wens'];
-            
-            $sql->execute([$klantNaam, $klantAdres, $klantTel, $klantEmail, $klantVolwas, $klantKind, $klantBaby, $klantWens]);
-            echo "Nieuwe klant toegevoegd.";
+    if($_SERVER["REQUEST_METHOD"] == "POST") {
+        switch (true) {
+            case isset($_POST['add']): 
+                $sql = $conn->prepare("INSERT INTO klant(naam, adres, telefoonnummer, email, aantalvolwassen, aantalkind, aantalbaby, wensen) VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
+                
+                $klantNaam = $_POST['naam'];
+                $klantAdres = $_POST['adres'];
+                $klantTel = $_POST['tel'];
+                $klantEmail = $_POST['email'];
+                $klantVolwas = $_POST['volwas'];
+                $klantKind = $_POST['kind'];
+                $klantBaby = $_POST['baby'];
+                $klantWens = $_POST['wens'];
+                
+                $sql->execute([$klantNaam, $klantAdres, $klantTel, $klantEmail, $klantVolwas, $klantKind, $klantBaby, $klantWens]);
+                echo "Nieuwe klant toegevoegd.";
 
-            header("Refresh: 3; url=Klanten.php");
-        }
-    } else if(isset($_POST['delete'])) {
-        if($_SERVER["REQUEST_METHOD"] == "POST") {
-            $klantDeletes = $_POST['klanten'];
-
-            foreach ($klantDeletes as $klantDelete) {
-                $sql = $conn->prepare("DELETE FROM klant WHERE idklant = ?");
-                $sql->execute([$klantDelete]);
-                echo "Klant verwijderd.";
-            }
-            header("Refresh: 3; url=Klanten.php");
+                header("Refresh: 3; url=Klanten.php");
+                break;
+            case isset($_POST['delete']):
+                if($_SERVER["REQUEST_METHOD"] == "POST") {
+                    $klantDeletes = $_POST['klanten'];
+        
+                    foreach ($klantDeletes as $klantDelete) {
+                        $sql = $conn->prepare("DELETE FROM klant WHERE idklant = ?");
+                        $sql->execute([$klantDelete]);
+                        echo "Klant verwijderd.";
+                    }
+                    header("Refresh: 3; url=Klanten.php");
+                }
+                break;
+            case isset($_POST['change']):
+                if($_SERVER["REQUEST_METHOD"] == "POST") {
+                    $changeKlant = $conn->prepare("UPDATE klant SET naam = ?, adres = ?, telefoonnummer = ?, email = ?, aantalvolwassen = ?, aantalkind = ?, aantalbaby = ?, wensen = ? WHERE idklant = ?");
+                    $changeNaam = $_POST['wijzNaam'];
+                    $changeAdres = $_POST['wijzAdres'];
+                    $changeTel = $_POST['wijzTel'];
+                    $changeEmail = $_POST['wijzEmail'];
+                    $changeVolwas = $_POST['wijzVolwas'];
+                    $changeKind = $_POST['wijzKind'];
+                    $changeBaby = $_POST['wijzBaby'];
+                    $changeWens = $_POST['wijzWens'];
+        
+                    $changeId = $_POST['wijzId'];
+        
+                    $changeKlant->execute([$changeNaam, $changeAdres, $changeTel, $changeEmail, $changeVolwas, $changeKind, $changeBaby, $changeWens, $changeId]);
+        
+                    echo "Klant gewijzigd.";
+                    header("Refresh: 3; url=Klanten.php");
+                }
+                break;
         }
     }
 ?>
