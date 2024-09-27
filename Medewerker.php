@@ -167,51 +167,51 @@ closeChangeform();
 </script>
 
 <?php
-    if(isset($_POST['add'])) {
-        if($_SERVER["REQUEST_METHOD"] == "POST") {
-            $sql = $conn->prepare("INSERT INTO user(gebruikersnaam, wachtwoord, idusertype) VALUES(?, ?, ?)");
-            
-            $userNaam = $_POST['user'];
-            $userPass = $_POST['pass'];
-            $userRePass = $_POST['repw'];
-            $userType = $_POST['type'];
+    if($_SERVER["REQUEST_METHOD"] == "POST") {
+        switch (true) {
+            case isset($_POST['add']):
+                $sql = $conn->prepare("INSERT INTO user(gebruikersnaam, wachtwoord, idusertype) VALUES(?, ?, ?)");
+                
+                $userNaam = $_POST['user'];
+                $userPass = $_POST['pass'];
+                $userRePass = $_POST['repw'];
+                $userType = $_POST['type'];
 
 
-            if ($userPass === $userRePass) {
-                $sql->execute([$userNaam, password_hash($userPass, PASSWORD_DEFAULT), $userType]);
-                echo "Nieuwe user toegevoegd.";
+                if ($userPass === $userRePass) {
+                    $sql->execute([$userNaam, password_hash($userPass, PASSWORD_DEFAULT), $userType]);
+                    echo "Nieuwe user toegevoegd.";
+                    header("Refresh: 3; url=Medewerker.php");
+                } else {
+                    echo "Wachtwoorden staan niet gelijk.";
+                }
+                break;
+            case isset($_POST['delete']):
+                $userDeletes = $_POST['users'];
+
+                foreach ($userDeletes as $userDelete) {
+                    $sql = $conn->prepare("DELETE FROM user WHERE iduser = ?");
+                    $sql->execute([$userDelete]);
+                    echo "Medewerker verwijderd.";
+                }
                 header("Refresh: 3; url=Medewerker.php");
-            } else {
-                echo "Wachtwoorden staan niet gelijk.";
-            }
-        }
-    } else if (isset($_POST['delete'])) {
-        if($_SERVER["REQUEST_METHOD"] == "POST") {
-            $userDeletes = $_POST['users'];
+                break;
+            case isset($_POST['Changepass']):
+                $Sqlchange = $conn->prepare("UPDATE user SET wachtwoord = ? Where iduser = ?");
 
-            foreach ($userDeletes as $userDelete) {
-                $sql = $conn->prepare("DELETE FROM user WHERE iduser = ?");
-                $sql->execute([$userDelete]);
-                echo "Medewerker verwijderd.";
-            }
-            header("Refresh: 3; url=Medewerker.php");
+                $userchange = $_POST['Change'];
+                $cPass = $_POST['cPass'];
+                $RecPass = $_POST['RecPass'];
+                if($cPass === $RecPass){
+                    $Sqlchange->execute([password_hash($cPass, PASSWORD_DEFAULT), $userchange]);
+                    echo "Wachtwoord is aangepast.";
+                    header("Refresh:3; url=Medewerker.php");
+                }else{
+                    echo "Wachtwoorden staan niet gelijk.";
+                }
+                break;
         }
-    } else if(isset($_POST['Changepass'])){
-        if($_SERVER["REQUEST_METHOD"] == "POST"){
-            $Sqlchange = $conn->prepare("UPDATE user SET wachtwoord = ? Where iduser = ?");
-
-            $userchange = $_POST['Change'];
-            $cPass = $_POST['cPass'];
-            $RecPass = $_POST['RecPass'];
-            if($cPass === $RecPass){
-                $Sqlchange->execute([password_hash($cPass, PASSWORD_DEFAULT), $userchange]);
-                echo "Wachtwoord is aangepast.";
-                header("Refresh:3; url=Medewerker.php");
-            }else{
-                echo "Wachtwoorden staan niet gelijk.";
-            }
-        }
-    }
+    } 
 ?>
 </body>
 </html>
