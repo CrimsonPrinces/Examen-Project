@@ -68,6 +68,7 @@
 </div>
 <button class="open-button text-black bg-white border border-black mt-5 mb-5 hover:bg-green-500 hover:text-white" onclick="openEnterForm()">Toevoegen</button>
 <button class="open-button text-black bg-white border border-black mt-5 mb-5 hover:bg-red-500 hover:text-white" onclick="openDeleteForm()">Verwijderen</button>
+<button class="open-button text-black bg-white border border-black mt-5 mb-5 hover:bg-yellow-500 hover:text-white" onclick="openLeverform()">Nieuwe Levering</button>
 
 <div class="form-popup" id="myEnterForm">
   <form class="form-container" method="post">
@@ -121,6 +122,27 @@
     <button class="text-black bg-white border border-black mt-5 hover:bg-red-500 hover:text-white " type="button" class="btn cancel delete" onclick="closeDeleteForm()">Sluiten</button>
   </form>
 </div>
+<div class="form-popup-lever" id="Leverform">
+    <form class="form-container-levering" method="post">
+    <label for="levering"><b>Nieuwe Leverings Datum</b></label>
+    <select name="Leverancier" id="Leverancier">
+        <?php
+        $sqlLevering ="SELECT idleverancier, bedrijfsnaam FROM leverancier";
+        $levering = $conn->query($sqlLevering);
+        if($levering){
+            while($row = $levering->fetch(PDO::FETCH_ASSOC)){
+                echo"<option value='".$row["idleverancier"]."'> ".$row["bedrijfsnaam"]."</option>";
+            }
+        }
+        ?>
+        <label for="nextdells"><b>Volgende levering</b></label>
+        <input class="border border-separate border-black" type="datetime-local" name="nextdells" required>
+    </select>
+    <br>
+    <button class="text-black bg-white border border-black mt-5 hover:bg-orange-300 hover:text-white " type="submit" class="btn" name="Change">Verander</button>
+    <button class="text-black bg-white border border-black mt-5 hover:bg-red-500 hover:text-white " type="button" class="btn cancel delete" onclick="closeDeleteForm()">Sluiten</button>
+    </form>
+</div>
 <script>
 function openEnterForm() {
   document.getElementById("myEnterForm").style.display = "block";
@@ -141,6 +163,14 @@ function closeDeleteForm() {
 }
 
 closeDeleteForm();
+
+function openLeverform(){
+    document.getElementById("Leverform").style.display = "block";
+}
+function closeLeverform(){
+    document.getElementById("Leverform").style.display = "none";
+}
+closeLeverform();
 </script>
 
 <?php
@@ -170,6 +200,16 @@ closeDeleteForm();
                 echo "Leverancier verwijderd.";
             }
             header("Refresh: 3; url=Leverancier.php");
+        }else if (isset($_POST['Change'])){
+            if($_SERVER["REQUEST_METHOD"]=="POST"){
+                $leverchange = $conn->prepare("UPDATE leverancier SET volgendelevering = ? WHERE idleverancier = ?");
+                $newlever = $_POST['nextdells'];
+                $idlever = $_POST['Leverancier'];
+                $leverchange->execute([$newlever, $idlever]);
+
+            echo"Niewe Leverings Datum Genoteerd.";
+            header("Refresh:3; url=Leverancier.php");
+            }
         }
     }
 ?>
