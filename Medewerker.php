@@ -59,6 +59,8 @@
 </div>
 <button class="open-button text-black bg-white border border-black mt-5 mb-5 hover:bg-green-500 hover:text-white" onclick="openEnterForm()">Toevoegen</button>
 <button class="open-button text-black bg-white border border-black mt-5 mb-5 hover:bg-red-500 hover:text-white" onclick="openDeleteForm()">Verwijderen</button>
+<button class="open-button text-black bg-white border border-black mt-5 mb-5 hover:bg-yellow-500 hover:text-white" onclick="openChangeform()">Aanpassen</button>
+
 
 <div class="form-popup" id="myEnterForm">
   <form class="form-container" method="post">
@@ -108,6 +110,32 @@
     <button class="text-black bg-white border border-black mt-5 mb-5 hover:bg-red-500 hover:text-white" type="button" class="btn cancel delete" onclick="closeDeleteForm()">Sluiten</button>
   </form>
 </div>
+<div class="form-popup" id="Changeform">
+    <form class="form-container-change" method="post">
+        <h2 class="text-lg border-b border-black mt-3 mb-3">Medewerker Aanpassen</h2>
+        <label for="Change"><b>Medewerker</b></label>
+        <select name="Change" id="Change">
+            <?php
+            $sqlChange = "SELECT iduser, gebruikersnaam from user";
+            $changes = $conn->query($sqlChange);
+            if($changes){
+                while($row = $changes->fetch(PDO::FETCH_ASSOC)){
+                    echo"<option value='".$row["iduser"]."'>".$row["iduser"]."</option>";
+                }
+            }
+             ?>
+        </select>
+        <br>
+
+        <label for="cPass"><b>Nieuw Wachtwoord</b></label>
+        <input class="border border-separate border-black" type="password"placeholder="Nieuw Watchwoord" name="cPass" required>
+        <label for="RecPass"><b>Herhaal Nieuw Wachtwoord</b></label>
+        <input class="border border-separate border-black" type="password"placeholder="Herhaal Nieuw Watchwoord" name="RecPass" required>
+        <br>
+        <button class="text-black bg-white border border-black mt-5 hover:bg-green-500 hover:text-white " type="submit" class="btn" name="Changepass">Aanpassen</button>
+        <button class="text-black bg-white border border-black mt-5 hover:bg-red-500 hover:text-white " type="button" class="btn cancel" onclick="closeChangeform()">Sluiten</button>
+    </form>
+</div>
 <script>
 function openEnterForm() {
   document.getElementById("myEnterForm").style.display = "block";
@@ -128,6 +156,14 @@ function closeDeleteForm() {
 }
 
 closeDeleteForm();
+
+function openChangeform(){
+    document.getElementById("Changeform").style.display = "block";
+}
+function closeChangeform(){
+    document.getElementById("Changeform").style.display = "none";
+}
+closeChangeform();
 </script>
 
 <?php
@@ -159,6 +195,21 @@ closeDeleteForm();
                 echo "Medewerker verwijderd.";
             }
             header("Refresh: 3; url=Medewerker.php");
+        }
+    } else if(isset($_POST['Changepass'])){
+        if($_SERVER["REQUEST_METHOD"] == "POST"){
+            $Sqlchange = $conn->prepare("UPDATE user SET wachtwoord = ? Where iduser = ?");
+
+            $userchange = $_POST['Change'];
+            $cPass = $_POST['cPass'];
+            $RecPass = $_POST['RecPass'];
+            if($cPass === $RecPass){
+                $Sqlchange->execute([password_hash($cPass, PASSWORD_DEFAULT), $userchange]);
+                echo "Wachtwoord is aangepast.";
+                header("Refresh:3; url=Medewerker.php");
+            }else{
+                echo "Wachtwoorden staan niet gelijk.";
+            }
         }
     }
 ?>
