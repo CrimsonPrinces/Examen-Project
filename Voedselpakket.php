@@ -30,13 +30,13 @@
 <div>
     <form class='form-container' method='post'>
         <select name='klanten' id='klanten'>
-        <?php 
-            $sqlKlantDisplay = "SELECT idklant, naam, wensen FROM klant";
-            $resKlantDisplay = $conn->query($sqlKlantDisplay);
-            
-            while ($row = $resKlantDisplay->fetch(PDO::FETCH_ASSOC)){
-                echo "<option class='border border-black hover:border-black' value='" . $row["idklant"] . "' name='" . $row["idklant"] . "'>" . $row["naam"] . "</option>";
-            }
+            <?php 
+                $sqlKlantDisplay = "SELECT idklant, naam, wensen FROM klant";
+                $resKlantDisplay = $conn->query($sqlKlantDisplay);
+                
+                while ($row = $resKlantDisplay->fetch(PDO::FETCH_ASSOC)){
+                    echo "<option class='border border-black hover:border-black' value='" . $row["idklant"] . "' name='" . $row["idklant"] . "'>" . $row["naam"] . "</option>";
+                }
             ?>
         </select>
         <button class="hover:bg-blue-400 hover:text-white text-black mb-5" type='submit' class='btn' onclick='openWens()' name="disWens">Deze klant selecteren</button>
@@ -50,7 +50,7 @@
                     $sqlWensID = $_POST["klanten"];
                     $sqlWensDisplay = "SELECT idklant, naam, wensen FROM klant WHERE idklant = ?";
                     $resWensDisplay = $conn->prepare($sqlWensDisplay);
-                    if ($resWensDisplay->execute($sqlWensID)) { 
+                    if ($resWensDisplay->execute([$sqlWensID])) { 
                         while ($row = $resWensDisplay->fetch(PDO::FETCH_ASSOC)) { 
                             echo "<td value='" . $row["idklant"] . "'>Wens van " . $row["naam"] . ": " . $row["wensen"] . "</td>";
                         } 
@@ -72,19 +72,29 @@
                 <?php
                     $sql = "SELECT idvoedselpakket, naam, samensteldatum, uitgiftedatum FROM voedselpakket JOIN klant ON voedselpakket.idklant = klant.idklant ORDER BY idvoedselpakket";
                     $result = $conn->query($sql);
-                    
                     if ($result) {
-                        while ($row = $result->fetch(PDO::FETCH_ASSOC)) { 
-                            $prevVoedselpakket = null;
-                            if ($row["idvoedselpakket"] != $prevVoedselpakket) {
+                        while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+                            echo "<form method='post'>";
                                 echo "<tr>";
-                                echo "<td class='border border-slate-600 text-black'>" . $row["idvoedselpakket"] . "</td>";
-                                echo "<td class='border border-slate-600 text-black'>" . $row["naam"] . "</td>"; 
-                                echo "<td class='border border-slate-600 text-black'>" . $row["samensteldatum"] . "</td>"; 
-                                echo "<td class='border border-slate-600 text-black'>" . $row["uitgiftedatum"] . "</td>";
+                                    echo "<td class='border border-slate-600 text-black'>" . $row["idvoedselpakket"] . "</td>";
+                                    echo "<td class='border border-slate-600 text-black'>" . $row["naam"] . "</td>"; 
+                                    echo "<td class='border border-slate-600 text-black'>" . $row["samensteldatum"] . "</td>"; 
+                                    echo "<td class='border border-slate-600 text-black'>" . $row["uitgiftedatum"] . "</td>";
+                                    echo "<td class='border border-slate-600 text-black'><button type='submit' value='" . $row["idvoedselpakket"] . "' name='". $row["idvoedselpakket"] . "'>Laat producten zien</button></td>";
                                 echo "</tr>";
-                            }
-                            $prevVoedselpakket = $row["idvoedselpakket"];
+
+                                if (isset($_POST[$row["idvoedselpakket"]])) {
+                                    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                                        $sqlDisplayProdInPakket = "SELECT idvoedselpakket, voedselpakket_has_product.streepjescode, productnaam, voedselpakket_has_product.aantal FROM voedselpakket_has_product JOIN product ON voedselpakket_has_product.streepjescode = product.streepjescode WHERE idvoedselpakket = ?";
+                                        $resDisplayProdInPakket = $conn->prepare($sqlDisplayProdInPakket);
+
+                                        if ($resDisplayProdInPakket->execute([$_POST[$row["idvoedselpakket"]]])) {
+                                            while ($row = $resDisplayProdInPakket->fetch(PDO::FETCH_ASSOC)) {
+                                                echo "Product: " . $row["productnaam"] . " Aantal: " . $row["aantal"] . "<br>"; 
+                                            }
+                                        }
+                                    }
+                                }
                         }
                     }
                 ?>
@@ -122,7 +132,7 @@
         while ($row = $resProd->fetch(PDO::FETCH_ASSOC)) {
             echo "<input type='checkbox' name='producten[]' value='" . $row["streepjescode"] . "'> " . $row["productnaam"] . " ";
             echo "<label for='" . $row["streepjescode"] . "'>Aantal</label> ";
-            echo "<input type='number' placeholder='0' name='" . $row["streepjescode"] . "' required><br>";
+            echo "<input type='number' value='0' name='" . $row["streepjescode"] . "' required><br>";
         }
     }
     ?>
@@ -132,13 +142,13 @@
   </form>
 </div>
 <script>
-function openEnterForm() {
-  document.getElementById("myEnterForm").style.display = "block";
-}
+    function openEnterForm() {
+    document.getElementById("myEnterForm").style.display = "block";
+    }
 
-function closeEnterForm() {
-  document.getElementById("myEnterForm").style.display = "none";
-}
+    function closeEnterForm() {
+    document.getElementById("myEnterForm").style.display = "none";
+    }
 </script>
 <!-- jeff -->
 <div class="form-popup-uitgeef" id="Uitgeef"> 
@@ -164,14 +174,14 @@ function closeEnterForm() {
   </form>
 </div>
 <script>
-closeEnterForm();
-function openUitgeef(){
-    document.getElementById("Uitgeef").style.display = "block";
-}
-function closeUitgeef(){
-    document.getElementById("Uitgeef").style.display = "none";
-}
-closeUitgeef();
+    closeEnterForm();
+    function openUitgeef(){
+        document.getElementById("Uitgeef").style.display = "block";
+    }
+    function closeUitgeef(){
+        document.getElementById("Uitgeef").style.display = "none";
+    }
+    closeUitgeef();
 </script>
 <?php
     if($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -181,15 +191,12 @@ closeUitgeef();
                 
                 $voedKlantID = $_POST['cust'];
                 $voedDatum = date('Y/m/d');
-                $sqlKlantAanVoedselpakket->execute([$voedDatum, $voedKlantID]);
                 
                 $voedProducten = $_POST['producten'];
                 $last_id = $conn->lastInsertId();
 
                 foreach ($voedProducten as $voedProduct) {
                     $voedAantal = $_POST[$voedProduct];
-                    $sqlVoedselpakketAndProduct = $conn->prepare("INSERT INTO voedselpakket_has_product(idvoedselpakket, idklant, streepjescode, aantal) VALUES(?, ?, ?, ?)");
-                    $sqlVoedselpakketAndProduct->execute([$last_id, $voedKlantID, $voedProduct, $voedAantal]);
 
                     $sqlProduct = "SELECT streepjescode, aantal FROM product WHERE streepjescode = $voedProduct";
                     $resProduct = $conn->query($sqlProduct);
@@ -197,6 +204,10 @@ closeUitgeef();
                         while ($row = $resProduct->fetch(PDO::FETCH_ASSOC)) {
                             $aantalNaToevoeging = $row["aantal"] - $voedAantal;
                             if ($aantalNaToevoeging >= 0) {
+                                $sqlVoedselpakketAndProduct = $conn->prepare("INSERT INTO voedselpakket_has_product(idvoedselpakket, idklant, streepjescode, aantal) VALUES(?, ?, ?, ?)");
+                                $sqlVoedselpakketAndProduct->execute([$last_id, $voedKlantID, $voedProduct, $voedAantal]);
+                                $sqlKlantAanVoedselpakket->execute([$voedDatum, $voedKlantID]);
+
                                 $prodAantalVeranderen = $conn->prepare("UPDATE product SET aantal = ? WHERE streepjescode = ?");
                                 $prodAantalVeranderen->execute([$aantalNaToevoeging, $voedProduct]);
 
