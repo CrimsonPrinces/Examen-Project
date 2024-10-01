@@ -198,9 +198,9 @@
                 foreach ($voedProducten as $voedProduct) {
                     $voedAantal = $_POST[$voedProduct];
 
-                    $sqlProduct = "SELECT streepjescode, aantal FROM product WHERE streepjescode = $voedProduct";
-                    $resProduct = $conn->query($sqlProduct);
-                    if($resProduct) {
+                    $sqlProduct = "SELECT streepjescode, aantal FROM product WHERE streepjescode = ?";
+                    $resProduct = $conn->prepare($sqlProduct);
+                    if($resProduct->execute([$voedProduct])) {
                         while ($row = $resProduct->fetch(PDO::FETCH_ASSOC)) {
                             $aantalNaToevoeging = $row["aantal"] - $voedAantal;
                             if ($aantalNaToevoeging >= 0) {
