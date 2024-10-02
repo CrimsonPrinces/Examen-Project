@@ -22,7 +22,6 @@
 <div class="flex">
 <h2>Voedselbank Maaskantje</h2>
 <div class="mb-20">
-    <a href='home.php' class= "mx-5"> Home </a>
     <?php require_once("Switches.php");
      ?>
     </div>
