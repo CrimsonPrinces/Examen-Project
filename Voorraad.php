@@ -22,7 +22,7 @@
 <body class = "p-8">
 <div class="flex">
 
-<h2>Voedselbank Maaskantje</h2>;
+<h2>Voedselbank Maaskantje</h2>
    <div class="mb-20">
     <?php require_once("Switches.php");
      ?>
