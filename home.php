@@ -1,3 +1,12 @@
+<?php
+    require_once("db_login.php");
+
+    if (!isset($_SESSION["usertype"])) {
+        header("Location: index.php");
+    }
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,11 +27,11 @@ echo "Voedselbank Maaskantje";
 <br>
 <a href='Voorraad.php'> Voorraad </a>
 <br>
-<a href='Leveranchier.php'> Leveranchiers </a>
+<a href='Leverancier.php'> Leveranciers </a>
 <br>
 <a href='Klanten.php'> Klanten </a>
 <br>
-<a href='index.php'> Uitloggen </a>
+<a href='logout.php'> Uitloggen </a>
 
 </body>
 </html>
