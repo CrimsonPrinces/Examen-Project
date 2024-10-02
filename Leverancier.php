@@ -2,7 +2,7 @@
     ob_start();
     require_once("db_login.php");
 
-    if ($_SESSION["usertype"] != 1) {
+    if ($_SESSION["usertype"] == 3) {
         header("Location: Voedselpakket.php");
     } 
     if (!isset($_SESSION["usertype"])) {

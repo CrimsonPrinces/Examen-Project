@@ -52,7 +52,7 @@
                     $resWensDisplay = $conn->prepare($sqlWensDisplay);
                     if ($resWensDisplay->execute([$sqlWensID])) { 
                         while ($row = $resWensDisplay->fetch(PDO::FETCH_ASSOC)) { 
-                            echo "<td value='" . $row["idklant"] . "'>Wens van " . $row["naam"] . ": " . $row["wensen"] . "</td>";
+                            echo "<td  value='" . $row["idklant"] . "'>Wens van " . $row["naam"] . ": " . $row["wensen"] . "</td>";
                         } 
                     }
                 }
@@ -90,7 +90,7 @@
 
                                         if ($resDisplayProdInPakket->execute([$_POST[$row["idvoedselpakket"]]])) {
                                             while ($row = $resDisplayProdInPakket->fetch(PDO::FETCH_ASSOC)) {
-                                                echo "Product: " . $row["productnaam"] . " Aantal: " . $row["aantal"] . "<br>"; 
+                                                echo "<p class='text-black'>Product: " . $row["productnaam"] . " Aantal: " . $row["aantal"] . "<br> </p>"; 
                                             }
                                         }
                                     }
@@ -126,12 +126,13 @@
     <br>
     <?php 
     
-    $sqlProd = "SELECT streepjescode, productnaam FROM product";
+    $sqlProd = "SELECT streepjescode, productnaam, product.idcategorie, beschrijving FROM product JOIN categorie ON product.idcategorie = categorie.idcategorie";
     $resProd = $conn->query($sqlProd);
     if ($resProd) {
         while ($row = $resProd->fetch(PDO::FETCH_ASSOC)) {
             echo "<input type='checkbox' name='producten[]' value='" . $row["streepjescode"] . "'> " . $row["productnaam"] . " ";
-            echo "<label for='" . $row["streepjescode"] . "'>Aantal</label> ";
+            echo "Categorie: ".$row["beschrijving"];
+            echo "<label for='" . $row["streepjescode"] . "'> Aantal</label> ";
             echo "<input type='number' value='0' name='" . $row["streepjescode"] . "' required><br>";
         }
     }
@@ -188,11 +189,13 @@
         switch (true) {
             case isset($_POST['add']):
                 $sqlKlantAanVoedselpakket = $conn->prepare("INSERT INTO voedselpakket(samensteldatum, idklant) VALUES(?, ?)");
-                $sqlKlantAanVoedselpakket->execute([$voedDatum, $voedKlantID]);
+                
                 
                 $voedKlantID = $_POST['cust'];
                 $voedDatum = date('Y/m/d');
                 
+                $sqlKlantAanVoedselpakket->execute([$voedDatum, $voedKlantID]);
+
                 $voedProducten = $_POST['producten'];
                 $last_id = $conn->lastInsertId();
 
