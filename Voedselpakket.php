@@ -188,6 +188,7 @@
         switch (true) {
             case isset($_POST['add']):
                 $sqlKlantAanVoedselpakket = $conn->prepare("INSERT INTO voedselpakket(samensteldatum, idklant) VALUES(?, ?)");
+                $sqlKlantAanVoedselpakket->execute([$voedDatum, $voedKlantID]);
                 
                 $voedKlantID = $_POST['cust'];
                 $voedDatum = date('Y/m/d');
@@ -206,7 +207,6 @@
                             if ($aantalNaToevoeging >= 0) {
                                 $sqlVoedselpakketAndProduct = $conn->prepare("INSERT INTO voedselpakket_has_product(idvoedselpakket, idklant, streepjescode, aantal) VALUES(?, ?, ?, ?)");
                                 $sqlVoedselpakketAndProduct->execute([$last_id, $voedKlantID, $voedProduct, $voedAantal]);
-                                $sqlKlantAanVoedselpakket->execute([$voedDatum, $voedKlantID]);
 
                                 $prodAantalVeranderen = $conn->prepare("UPDATE product SET aantal = ? WHERE streepjescode = ?");
                                 $prodAantalVeranderen->execute([$aantalNaToevoeging, $voedProduct]);
